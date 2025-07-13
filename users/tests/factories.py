@@ -10,8 +10,10 @@ class UserFactory(DjangoModelFactory):
         model = User
         django_get_or_create = ("email",)
 
+    username = factory.Faker("user_name")
     email = factory.Faker("email")
-    name = factory.Faker("name")
+    first_name = factory.Faker("first_name")
+    last_name = factory.Faker("last_name")
     is_active = True
 
     @staticmethod
@@ -23,7 +25,9 @@ class UserFactory(DjangoModelFactory):
 
 
 class AdminUserFactory(UserFactory):
+    username = factory.Faker("user_name")
     email = factory.Faker("email")
     is_staff = True
     is_superuser = True
-    name = factory.Faker("name")
+    first_name = factory.Faker("first_name")
+    last_name = factory.Faker("last_name")

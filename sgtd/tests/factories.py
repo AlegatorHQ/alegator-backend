@@ -1,15 +1,18 @@
+from datetime import timezone
 from django.contrib.auth import get_user_model
 import factory
 from factory.django import DjangoModelFactory
 
 from ..models import (
-    Adjudicators,
+    Checkins,
     Draws,
-    DrawsAdjudicators,
+    Drawsjudges,
+    Feedbacks,
+    Judges,
     Rounds,
-    SpeakerResults,
+    Speakerresults,
     Speakers,
-    TeamResults,
+    Teamresults,
     Teams,
 )
 
@@ -22,9 +25,7 @@ class SpeakersFactory(DjangoModelFactory):
 
     name = factory.Faker("text")
     province = factory.Faker("text")
-    nickname = factory.Faker("text")
-    status = factory.Faker("boolean")
-    institution = factory.Faker("text")
+    delegation = factory.Faker("text")
 
 
 class TeamsFactory(DjangoModelFactory):
@@ -34,17 +35,18 @@ class TeamsFactory(DjangoModelFactory):
     name = factory.Faker("text")
     speaker_1 = factory.SubFactory("users.tests.factories.UserFactory")
     speaker_2 = factory.SubFactory("users.tests.factories.UserFactory")
+    teamtype = factory.Faker("text")
 
 
-class AdjudicatorsFactory(DjangoModelFactory):
+class JudgesFactory(DjangoModelFactory):
     class Meta:
-        model = Adjudicators
+        model = Judges
 
     name = factory.Faker("text")
     province = factory.Faker("text")
-    institution = factory.Faker("text")
-    team_representation = factory.SubFactory("sgtd.tests.factories.TeamsFactory")
-    score = factory.Faker(
+    delegation = factory.Faker("text")
+    team = factory.SubFactory("sgtd.tests.factories.TeamsFactory")
+    basescore = factory.Faker(
         "pydecimal", left_digits=1, right_digits=2, min_value=None, max_value=None
     )
 
@@ -67,23 +69,25 @@ class DrawsFactory(DjangoModelFactory):
         model = Draws
 
     round = factory.SubFactory("sgtd.tests.factories.RoundsFactory")
-    speaker_position = factory.SubFactory("sgtd.tests.factories.SpeakersFactory")
-    adjudicator = factory.SubFactory("sgtd.tests.factories.AdjudicatorsFactory")
+    ag = factory.SubFactory("sgtd.tests.factories.SpeakersFactory")
     draw_status = factory.Faker("text")
+    ao = factory.SubFactory("sgtd.tests.factories.SpeakersFactory")
+    bg = factory.SubFactory("sgtd.tests.factories.SpeakersFactory")
+    bo = factory.SubFactory("sgtd.tests.factories.SpeakersFactory")
 
 
-class DrawsAdjudicatorsFactory(DjangoModelFactory):
+class DrawsjudgesFactory(DjangoModelFactory):
     class Meta:
-        model = DrawsAdjudicators
+        model = Drawsjudges
 
-    draw = factory.SubFactory("sgtd.tests.factories.AdjudicatorsFactory")
-    adjudicator = factory.SubFactory("sgtd.tests.factories.AdjudicatorsFactory")
+    draw = factory.SubFactory("sgtd.tests.factories.JudgesFactory")
+    judge = factory.SubFactory("sgtd.tests.factories.JudgesFactory")
     role = factory.Faker("text")
 
 
-class TeamResultsFactory(DjangoModelFactory):
+class TeamresultsFactory(DjangoModelFactory):
     class Meta:
-        model = TeamResults
+        model = Teamresults
 
     draw = factory.SubFactory("sgtd.tests.factories.DrawsFactory")
     team = factory.SubFactory("sgtd.tests.factories.TeamsFactory")
@@ -91,12 +95,33 @@ class TeamResultsFactory(DjangoModelFactory):
     points = factory.Faker("random_int")
 
 
-class SpeakerResultsFactory(DjangoModelFactory):
+class SpeakerresultsFactory(DjangoModelFactory):
     class Meta:
-        model = SpeakerResults
+        model = Speakerresults
 
     draw = factory.SubFactory("sgtd.tests.factories.DrawsFactory")
     speaker = factory.SubFactory("sgtd.tests.factories.SpeakersFactory")
     speaker_points = factory.Faker(
         "pydecimal", left_digits=1, right_digits=2, min_value=None, max_value=None
     )
+    team_result = factory.SubFactory("sgtd.tests.factories.TeamresultsFactory")
+
+
+class CheckinsFactory(DjangoModelFactory):
+    class Meta:
+        model = Checkins
+
+    update_at = factory.Faker("date_time", tzinfo=timezone.utc)
+    round = factory.SubFactory("sgtd.tests.factories.RoundsFactory")
+    speaker = factory.SubFactory("sgtd.tests.factories.SpeakersFactory")
+
+
+class FeedbacksFactory(DjangoModelFactory):
+    class Meta:
+        model = Feedbacks
+
+    draw = factory.SubFactory("sgtd.tests.factories.DrawsFactory")
+    given_by = factory.Faker("text")
+    target = factory.Faker("text")
+    comment = factory.Faker("text")
+    score = factory.Faker("random_int")

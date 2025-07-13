@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Tournaments
+from .models import Tournaments, Usertournament
 
 
 class TournamentsSerializer(serializers.ModelSerializer):
@@ -22,3 +22,9 @@ class TournamentsSerializer(serializers.ModelSerializer):
             "creator",
             "updated_at",
         ]
+
+
+class UsertournamentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Usertournament
+        fields = ["id", "user", "tournament", "role"]

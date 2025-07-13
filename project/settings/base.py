@@ -81,10 +81,9 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # allauth settings
-ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-ACCOUNT_AUTHENTICATION_METHOD = "email"
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = "username"
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = "none"
 LOGOUT_ON_PASSWORD_CHANGE = False
@@ -122,6 +121,14 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 100,
     "COERCE_DECIMAL_TO_STRING": False,
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.AnonRateThrottle",
+        "rest_framework.throttling.UserRateThrottle",
+    ],
+    "DEFAULT_THROTTLE_RATES": {
+        "anon": ENV_STR("THROTTLE_ANONYMOUS", "50/hour"),
+        "user": ENV_STR("THROTTLE_AUTHENTICATED", "1000/hour"),
+    },
 }
 
 # log to console, assume the supervisor/system runner will take care of the logs

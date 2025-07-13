@@ -6,60 +6,46 @@ from users.tests.factories import UserFactory, AdminUserFactory
 from .factories import (
     SpeakersFactory,
     TeamsFactory,
-    AdjudicatorsFactory,
+    JudgesFactory,
     RoundsFactory,
     DrawsFactory,
-    DrawsAdjudicatorsFactory,
-    TeamResultsFactory,
-    SpeakerResultsFactory,
+    TeamresultsFactory,
+    SpeakerresultsFactory,
+    CheckinsFactory,
+    FeedbacksFactory,
 )
 from ..serializers import (
-    AdjudicatorsSerializer,
+    CheckinsSerializer,
     DrawsSerializer,
-    DrawsAdjudicatorsSerializer,
+    FeedbacksSerializer,
+    JudgesSerializer,
     RoundsSerializer,
-    SpeakerResultsSerializer,
+    SpeakerresultsSerializer,
     SpeakersSerializer,
-    TeamResultsSerializer,
+    TeamresultsSerializer,
     TeamsSerializer,
 )
 
 
-class TestAdjudicators(TestCase):
+class TestCheckins(TestCase):
     def setUp(self):
         self.client = APIClient()
 
         self.user = UserFactory()
         self.admin = AdminUserFactory()
-        self.instance = AdjudicatorsFactory()
+        self.instance = CheckinsFactory()
 
     def test_anonymous_list_fails(self):
-        """Test that anonymous users can't list Adjudicators instances"""
+        """Test that anonymous users can't list Checkins instances"""
 
-        resp = self.client.get("/api/v1/sgtd/adjudicators/")
+        resp = self.client.get("/api/v1/sgtd/checkins/")
         self.assertEqual(resp.status_code, 403)
 
     def test_list(self):
-        """Test that Adjudicators collection can be listed"""
+        """Test that Checkins collection can be listed"""
 
         self.client.force_authenticate(user=self.user)
-        resp = self.client.get("/api/v1/sgtd/adjudicators/")
-        self.assertEqual(resp.status_code, 200)
-
-        data = resp.json()
-        self.assertEqual(data["count"], 1)
-        self.assertEqual(data["results"][0]["id"], self.instance.id)
-
-    def test_list_search(self):
-        """Test that Adjudicators collection can be searched by"""
-
-        self.client.force_authenticate(user=self.user)
-        resp = self.client.get(
-            "/api/v1/sgtd/adjudicators/",
-            {
-                "name__icontains": self.instance.name,
-            },
-        )
+        resp = self.client.get("/api/v1/sgtd/checkins/")
         self.assertEqual(resp.status_code, 200)
 
         data = resp.json()
@@ -67,65 +53,65 @@ class TestAdjudicators(TestCase):
         self.assertEqual(data["results"][0]["id"], self.instance.id)
 
     def test_anonymous_get_fails(self):
-        """Test that anonymous users can't retrieve Adjudicators instances"""
+        """Test that anonymous users can't retrieve Checkins instances"""
 
-        resp = self.client.get(f"/api/v1/sgtd/adjudicators/{self.instance.id}/")
+        resp = self.client.get(f"/api/v1/sgtd/checkins/{self.instance.id}/")
         self.assertEqual(resp.status_code, 403)
 
     def test_get(self):
-        """Test that an instance of Adjudicators can be retrieved"""
+        """Test that an instance of Checkins can be retrieved"""
 
         self.client.force_authenticate(user=self.user)
-        resp = self.client.get(f"/api/v1/sgtd/adjudicators/{self.instance.id}/")
+        resp = self.client.get(f"/api/v1/sgtd/checkins/{self.instance.id}/")
 
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.json()["id"], self.instance.id)
 
     def test_anonymous_create_fails(self):
-        """Test that anonymous users can't create a new Adjudicators"""
+        """Test that anonymous users can't create a new Checkins"""
 
-        resp = self.client.post("/api/v1/sgtd/adjudicators/")
+        resp = self.client.post("/api/v1/sgtd/checkins/")
         self.assertEqual(resp.status_code, 403)
 
-    @patch("sgtd.views.AdjudicatorsViewSet.get_serializer")
+    @patch("sgtd.views.CheckinsViewSet.get_serializer")
     def test_create(self, mock_get_serializer):
-        """Test create view for Adjudicators"""
+        """Test create view for Checkins"""
 
         self.client.force_authenticate(user=self.user)
         serializer = mock_get_serializer.return_value
         serializer.is_valid.return_value = True
-        serializer.data = AdjudicatorsSerializer(self.instance).data
+        serializer.data = CheckinsSerializer(self.instance).data
 
-        resp = self.client.post("/api/v1/sgtd/adjudicators/", {})
+        resp = self.client.post("/api/v1/sgtd/checkins/", {})
         self.assertEqual(resp.status_code, 201)
 
         mock_get_serializer.assert_called_once_with(data={})
         serializer.save.assert_called_once_with()
 
     def test_anonymous_update_fails(self):
-        """Test that anonymous users can't update an existing Adjudicators"""
+        """Test that anonymous users can't update an existing Checkins"""
 
-        resp = self.client.patch(f"/api/v1/sgtd/adjudicators/{self.instance.id}/", {})
+        resp = self.client.patch(f"/api/v1/sgtd/checkins/{self.instance.id}/", {})
         self.assertEqual(resp.status_code, 403)
 
     def test_update(self):
-        """Test Adjudicators update"""
+        """Test Checkins update"""
 
         self.client.force_authenticate(user=self.admin)
-        resp = self.client.patch(f"/api/v1/sgtd/adjudicators/{self.instance.id}/", {})
+        resp = self.client.patch(f"/api/v1/sgtd/checkins/{self.instance.id}/", {})
         self.assertEqual(resp.status_code, 200)
 
     def test_anonymous_delete_fails(self):
-        """Test that anonymous users can't delete Adjudicators"""
+        """Test that anonymous users can't delete Checkins"""
 
-        resp = self.client.delete(f"/api/v1/sgtd/adjudicators/{self.instance.id}/")
+        resp = self.client.delete(f"/api/v1/sgtd/checkins/{self.instance.id}/")
         self.assertEqual(resp.status_code, 403)
 
     def test_delete(self):
-        """Test Adjudicators deletion"""
+        """Test Checkins deletion"""
 
         self.client.force_authenticate(user=self.admin)
-        resp = self.client.delete(f"/api/v1/sgtd/adjudicators/{self.instance.id}/")
+        resp = self.client.delete(f"/api/v1/sgtd/checkins/{self.instance.id}/")
 
         self.assertEqual(resp.status_code, 204)
 
@@ -219,25 +205,25 @@ class TestDraws(TestCase):
         self.assertEqual(resp.status_code, 204)
 
 
-class TestDrawsAdjudicators(TestCase):
+class TestFeedbacks(TestCase):
     def setUp(self):
         self.client = APIClient()
 
         self.user = UserFactory()
         self.admin = AdminUserFactory()
-        self.instance = DrawsAdjudicatorsFactory()
+        self.instance = FeedbacksFactory()
 
     def test_anonymous_list_fails(self):
-        """Test that anonymous users can't list DrawsAdjudicators instances"""
+        """Test that anonymous users can't list Feedbacks instances"""
 
-        resp = self.client.get("/api/v1/sgtd/draws-adjudicators/")
+        resp = self.client.get("/api/v1/sgtd/feedbacks/")
         self.assertEqual(resp.status_code, 403)
 
     def test_list(self):
-        """Test that DrawsAdjudicators collection can be listed"""
+        """Test that Feedbacks collection can be listed"""
 
         self.client.force_authenticate(user=self.user)
-        resp = self.client.get("/api/v1/sgtd/draws-adjudicators/")
+        resp = self.client.get("/api/v1/sgtd/feedbacks/")
         self.assertEqual(resp.status_code, 200)
 
         data = resp.json()
@@ -245,73 +231,154 @@ class TestDrawsAdjudicators(TestCase):
         self.assertEqual(data["results"][0]["id"], self.instance.id)
 
     def test_anonymous_get_fails(self):
-        """Test that anonymous users can't retrieve DrawsAdjudicators instances"""
+        """Test that anonymous users can't retrieve Feedbacks instances"""
 
-        resp = self.client.get(f"/api/v1/sgtd/draws-adjudicators/{self.instance.id}/")
+        resp = self.client.get(f"/api/v1/sgtd/feedbacks/{self.instance.id}/")
         self.assertEqual(resp.status_code, 403)
 
     def test_get(self):
-        """Test that an instance of DrawsAdjudicators can be retrieved"""
+        """Test that an instance of Feedbacks can be retrieved"""
 
         self.client.force_authenticate(user=self.user)
-        resp = self.client.get(f"/api/v1/sgtd/draws-adjudicators/{self.instance.id}/")
+        resp = self.client.get(f"/api/v1/sgtd/feedbacks/{self.instance.id}/")
 
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.json()["id"], self.instance.id)
 
     def test_anonymous_create_fails(self):
-        """Test that anonymous users can't create a new DrawsAdjudicators"""
+        """Test that anonymous users can't create a new Feedbacks"""
 
-        resp = self.client.post("/api/v1/sgtd/draws-adjudicators/")
+        resp = self.client.post("/api/v1/sgtd/feedbacks/")
         self.assertEqual(resp.status_code, 403)
 
-    @patch("sgtd.views.DrawsAdjudicatorsViewSet.get_serializer")
+    @patch("sgtd.views.FeedbacksViewSet.get_serializer")
     def test_create(self, mock_get_serializer):
-        """Test create view for DrawsAdjudicators"""
+        """Test create view for Feedbacks"""
 
         self.client.force_authenticate(user=self.user)
         serializer = mock_get_serializer.return_value
         serializer.is_valid.return_value = True
-        serializer.data = DrawsAdjudicatorsSerializer(self.instance).data
+        serializer.data = FeedbacksSerializer(self.instance).data
 
-        resp = self.client.post("/api/v1/sgtd/draws-adjudicators/", {})
+        resp = self.client.post("/api/v1/sgtd/feedbacks/", {})
         self.assertEqual(resp.status_code, 201)
 
         mock_get_serializer.assert_called_once_with(data={})
         serializer.save.assert_called_once_with()
 
     def test_anonymous_update_fails(self):
-        """Test that anonymous users can't update an existing DrawsAdjudicators"""
+        """Test that anonymous users can't update an existing Feedbacks"""
 
-        resp = self.client.patch(
-            f"/api/v1/sgtd/draws-adjudicators/{self.instance.id}/", {}
-        )
+        resp = self.client.patch(f"/api/v1/sgtd/feedbacks/{self.instance.id}/", {})
         self.assertEqual(resp.status_code, 403)
 
     def test_update(self):
-        """Test DrawsAdjudicators update"""
+        """Test Feedbacks update"""
 
-        self.client.force_authenticate(user=self.admin)
-        resp = self.client.patch(
-            f"/api/v1/sgtd/draws-adjudicators/{self.instance.id}/", {}
-        )
+        self.client.force_authenticate(user=self.user)
+        resp = self.client.patch(f"/api/v1/sgtd/feedbacks/{self.instance.id}/", {})
         self.assertEqual(resp.status_code, 200)
 
     def test_anonymous_delete_fails(self):
-        """Test that anonymous users can't delete DrawsAdjudicators"""
+        """Test that anonymous users can't delete Feedbacks"""
 
-        resp = self.client.delete(
-            f"/api/v1/sgtd/draws-adjudicators/{self.instance.id}/"
-        )
+        resp = self.client.delete(f"/api/v1/sgtd/feedbacks/{self.instance.id}/")
         self.assertEqual(resp.status_code, 403)
 
     def test_delete(self):
-        """Test DrawsAdjudicators deletion"""
+        """Test Feedbacks deletion"""
 
         self.client.force_authenticate(user=self.admin)
-        resp = self.client.delete(
-            f"/api/v1/sgtd/draws-adjudicators/{self.instance.id}/"
-        )
+        resp = self.client.delete(f"/api/v1/sgtd/feedbacks/{self.instance.id}/")
+
+        self.assertEqual(resp.status_code, 204)
+
+
+class TestJudges(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+
+        self.user = UserFactory()
+        self.admin = AdminUserFactory()
+        self.instance = JudgesFactory()
+
+    def test_anonymous_list_fails(self):
+        """Test that anonymous users can't list Judges instances"""
+
+        resp = self.client.get("/api/v1/sgtd/judges/")
+        self.assertEqual(resp.status_code, 403)
+
+    def test_list(self):
+        """Test that Judges collection can be listed"""
+
+        self.client.force_authenticate(user=self.user)
+        resp = self.client.get("/api/v1/sgtd/judges/")
+        self.assertEqual(resp.status_code, 200)
+
+        data = resp.json()
+        self.assertEqual(data["count"], 1)
+        self.assertEqual(data["results"][0]["id"], self.instance.id)
+
+    def test_anonymous_get_fails(self):
+        """Test that anonymous users can't retrieve Judges instances"""
+
+        resp = self.client.get(f"/api/v1/sgtd/judges/{self.instance.id}/")
+        self.assertEqual(resp.status_code, 403)
+
+    def test_get(self):
+        """Test that an instance of Judges can be retrieved"""
+
+        self.client.force_authenticate(user=self.user)
+        resp = self.client.get(f"/api/v1/sgtd/judges/{self.instance.id}/")
+
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.json()["id"], self.instance.id)
+
+    def test_anonymous_create_fails(self):
+        """Test that anonymous users can't create a new Judges"""
+
+        resp = self.client.post("/api/v1/sgtd/judges/")
+        self.assertEqual(resp.status_code, 403)
+
+    @patch("sgtd.views.JudgesViewSet.get_serializer")
+    def test_create(self, mock_get_serializer):
+        """Test create view for Judges"""
+
+        self.client.force_authenticate(user=self.user)
+        serializer = mock_get_serializer.return_value
+        serializer.is_valid.return_value = True
+        serializer.data = JudgesSerializer(self.instance).data
+
+        resp = self.client.post("/api/v1/sgtd/judges/", {})
+        self.assertEqual(resp.status_code, 201)
+
+        mock_get_serializer.assert_called_once_with(data={})
+        serializer.save.assert_called_once_with()
+
+    def test_anonymous_update_fails(self):
+        """Test that anonymous users can't update an existing Judges"""
+
+        resp = self.client.patch(f"/api/v1/sgtd/judges/{self.instance.id}/", {})
+        self.assertEqual(resp.status_code, 403)
+
+    def test_update(self):
+        """Test Judges update"""
+
+        self.client.force_authenticate(user=self.admin)
+        resp = self.client.patch(f"/api/v1/sgtd/judges/{self.instance.id}/", {})
+        self.assertEqual(resp.status_code, 200)
+
+    def test_anonymous_delete_fails(self):
+        """Test that anonymous users can't delete Judges"""
+
+        resp = self.client.delete(f"/api/v1/sgtd/judges/{self.instance.id}/")
+        self.assertEqual(resp.status_code, 403)
+
+    def test_delete(self):
+        """Test Judges deletion"""
+
+        self.client.force_authenticate(user=self.admin)
+        resp = self.client.delete(f"/api/v1/sgtd/judges/{self.instance.id}/")
 
         self.assertEqual(resp.status_code, 204)
 
@@ -405,25 +472,25 @@ class TestRounds(TestCase):
         self.assertEqual(resp.status_code, 204)
 
 
-class TestSpeakerResults(TestCase):
+class TestSpeakerresults(TestCase):
     def setUp(self):
         self.client = APIClient()
 
         self.user = UserFactory()
         self.admin = AdminUserFactory()
-        self.instance = SpeakerResultsFactory()
+        self.instance = SpeakerresultsFactory()
 
     def test_anonymous_list_fails(self):
-        """Test that anonymous users can't list SpeakerResults instances"""
+        """Test that anonymous users can't list Speakerresults instances"""
 
-        resp = self.client.get("/api/v1/sgtd/speaker-results/")
+        resp = self.client.get("/api/v1/sgtd/speakerresults/")
         self.assertEqual(resp.status_code, 403)
 
     def test_list(self):
-        """Test that SpeakerResults collection can be listed"""
+        """Test that Speakerresults collection can be listed"""
 
         self.client.force_authenticate(user=self.user)
-        resp = self.client.get("/api/v1/sgtd/speaker-results/")
+        resp = self.client.get("/api/v1/sgtd/speakerresults/")
         self.assertEqual(resp.status_code, 200)
 
         data = resp.json()
@@ -431,69 +498,65 @@ class TestSpeakerResults(TestCase):
         self.assertEqual(data["results"][0]["id"], self.instance.id)
 
     def test_anonymous_get_fails(self):
-        """Test that anonymous users can't retrieve SpeakerResults instances"""
+        """Test that anonymous users can't retrieve Speakerresults instances"""
 
-        resp = self.client.get(f"/api/v1/sgtd/speaker-results/{self.instance.id}/")
+        resp = self.client.get(f"/api/v1/sgtd/speakerresults/{self.instance.id}/")
         self.assertEqual(resp.status_code, 403)
 
     def test_get(self):
-        """Test that an instance of SpeakerResults can be retrieved"""
+        """Test that an instance of Speakerresults can be retrieved"""
 
         self.client.force_authenticate(user=self.user)
-        resp = self.client.get(f"/api/v1/sgtd/speaker-results/{self.instance.id}/")
+        resp = self.client.get(f"/api/v1/sgtd/speakerresults/{self.instance.id}/")
 
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.json()["id"], self.instance.id)
 
     def test_anonymous_create_fails(self):
-        """Test that anonymous users can't create a new SpeakerResults"""
+        """Test that anonymous users can't create a new Speakerresults"""
 
-        resp = self.client.post("/api/v1/sgtd/speaker-results/")
+        resp = self.client.post("/api/v1/sgtd/speakerresults/")
         self.assertEqual(resp.status_code, 403)
 
-    @patch("sgtd.views.SpeakerResultsViewSet.get_serializer")
+    @patch("sgtd.views.SpeakerresultsViewSet.get_serializer")
     def test_create(self, mock_get_serializer):
-        """Test create view for SpeakerResults"""
+        """Test create view for Speakerresults"""
 
         self.client.force_authenticate(user=self.user)
         serializer = mock_get_serializer.return_value
         serializer.is_valid.return_value = True
-        serializer.data = SpeakerResultsSerializer(self.instance).data
+        serializer.data = SpeakerresultsSerializer(self.instance).data
 
-        resp = self.client.post("/api/v1/sgtd/speaker-results/", {})
+        resp = self.client.post("/api/v1/sgtd/speakerresults/", {})
         self.assertEqual(resp.status_code, 201)
 
         mock_get_serializer.assert_called_once_with(data={})
         serializer.save.assert_called_once_with()
 
     def test_anonymous_update_fails(self):
-        """Test that anonymous users can't update an existing SpeakerResults"""
+        """Test that anonymous users can't update an existing Speakerresults"""
 
-        resp = self.client.patch(
-            f"/api/v1/sgtd/speaker-results/{self.instance.id}/", {}
-        )
+        resp = self.client.patch(f"/api/v1/sgtd/speakerresults/{self.instance.id}/", {})
         self.assertEqual(resp.status_code, 403)
 
     def test_update(self):
-        """Test SpeakerResults update"""
+        """Test Speakerresults update"""
 
         self.client.force_authenticate(user=self.admin)
-        resp = self.client.patch(
-            f"/api/v1/sgtd/speaker-results/{self.instance.id}/", {}
-        )
+        resp = self.client.patch(f"/api/v1/sgtd/speakerresults/{self.instance.id}/", {})
         self.assertEqual(resp.status_code, 200)
 
     def test_anonymous_delete_fails(self):
-        """Test that anonymous users can't delete SpeakerResults"""
+        """Test that anonymous users can't delete Speakerresults"""
 
-        resp = self.client.delete(f"/api/v1/sgtd/speaker-results/{self.instance.id}/")
+        resp = self.client.delete(f"/api/v1/sgtd/speakerresults/{self.instance.id}/")
         self.assertEqual(resp.status_code, 403)
 
     def test_delete(self):
-        """Test SpeakerResults deletion"""
+        """Test Speakerresults deletion"""
 
         self.client.force_authenticate(user=self.admin)
-        resp = self.client.delete(f"/api/v1/sgtd/speaker-results/{self.instance.id}/")
+        resp = self.client.delete(f"/api/v1/sgtd/speakerresults/{self.instance.id}/")
 
         self.assertEqual(resp.status_code, 204)
 
@@ -587,25 +650,25 @@ class TestSpeakers(TestCase):
         self.assertEqual(resp.status_code, 204)
 
 
-class TestTeamResults(TestCase):
+class TestTeamresults(TestCase):
     def setUp(self):
         self.client = APIClient()
 
         self.user = UserFactory()
         self.admin = AdminUserFactory()
-        self.instance = TeamResultsFactory()
+        self.instance = TeamresultsFactory()
 
     def test_anonymous_list_fails(self):
-        """Test that anonymous users can't list TeamResults instances"""
+        """Test that anonymous users can't list Teamresults instances"""
 
-        resp = self.client.get("/api/v1/sgtd/team-results/")
+        resp = self.client.get("/api/v1/sgtd/teamresults/")
         self.assertEqual(resp.status_code, 403)
 
     def test_list(self):
-        """Test that TeamResults collection can be listed"""
+        """Test that Teamresults collection can be listed"""
 
         self.client.force_authenticate(user=self.user)
-        resp = self.client.get("/api/v1/sgtd/team-results/")
+        resp = self.client.get("/api/v1/sgtd/teamresults/")
         self.assertEqual(resp.status_code, 200)
 
         data = resp.json()
@@ -613,65 +676,65 @@ class TestTeamResults(TestCase):
         self.assertEqual(data["results"][0]["id"], self.instance.id)
 
     def test_anonymous_get_fails(self):
-        """Test that anonymous users can't retrieve TeamResults instances"""
+        """Test that anonymous users can't retrieve Teamresults instances"""
 
-        resp = self.client.get(f"/api/v1/sgtd/team-results/{self.instance.id}/")
+        resp = self.client.get(f"/api/v1/sgtd/teamresults/{self.instance.id}/")
         self.assertEqual(resp.status_code, 403)
 
     def test_get(self):
-        """Test that an instance of TeamResults can be retrieved"""
+        """Test that an instance of Teamresults can be retrieved"""
 
         self.client.force_authenticate(user=self.user)
-        resp = self.client.get(f"/api/v1/sgtd/team-results/{self.instance.id}/")
+        resp = self.client.get(f"/api/v1/sgtd/teamresults/{self.instance.id}/")
 
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.json()["id"], self.instance.id)
 
     def test_anonymous_create_fails(self):
-        """Test that anonymous users can't create a new TeamResults"""
+        """Test that anonymous users can't create a new Teamresults"""
 
-        resp = self.client.post("/api/v1/sgtd/team-results/")
+        resp = self.client.post("/api/v1/sgtd/teamresults/")
         self.assertEqual(resp.status_code, 403)
 
-    @patch("sgtd.views.TeamResultsViewSet.get_serializer")
+    @patch("sgtd.views.TeamresultsViewSet.get_serializer")
     def test_create(self, mock_get_serializer):
-        """Test create view for TeamResults"""
+        """Test create view for Teamresults"""
 
         self.client.force_authenticate(user=self.user)
         serializer = mock_get_serializer.return_value
         serializer.is_valid.return_value = True
-        serializer.data = TeamResultsSerializer(self.instance).data
+        serializer.data = TeamresultsSerializer(self.instance).data
 
-        resp = self.client.post("/api/v1/sgtd/team-results/", {})
+        resp = self.client.post("/api/v1/sgtd/teamresults/", {})
         self.assertEqual(resp.status_code, 201)
 
         mock_get_serializer.assert_called_once_with(data={})
         serializer.save.assert_called_once_with()
 
     def test_anonymous_update_fails(self):
-        """Test that anonymous users can't update an existing TeamResults"""
+        """Test that anonymous users can't update an existing Teamresults"""
 
-        resp = self.client.patch(f"/api/v1/sgtd/team-results/{self.instance.id}/", {})
+        resp = self.client.patch(f"/api/v1/sgtd/teamresults/{self.instance.id}/", {})
         self.assertEqual(resp.status_code, 403)
 
     def test_update(self):
-        """Test TeamResults update"""
+        """Test Teamresults update"""
 
         self.client.force_authenticate(user=self.admin)
-        resp = self.client.patch(f"/api/v1/sgtd/team-results/{self.instance.id}/", {})
+        resp = self.client.patch(f"/api/v1/sgtd/teamresults/{self.instance.id}/", {})
         self.assertEqual(resp.status_code, 200)
 
     def test_anonymous_delete_fails(self):
-        """Test that anonymous users can't delete TeamResults"""
+        """Test that anonymous users can't delete Teamresults"""
 
-        resp = self.client.delete(f"/api/v1/sgtd/team-results/{self.instance.id}/")
+        resp = self.client.delete(f"/api/v1/sgtd/teamresults/{self.instance.id}/")
         self.assertEqual(resp.status_code, 403)
 
     def test_delete(self):
-        """Test TeamResults deletion"""
+        """Test Teamresults deletion"""
 
         self.client.force_authenticate(user=self.admin)
-        resp = self.client.delete(f"/api/v1/sgtd/team-results/{self.instance.id}/")
+        resp = self.client.delete(f"/api/v1/sgtd/teamresults/{self.instance.id}/")
 
         self.assertEqual(resp.status_code, 204)
 
@@ -695,22 +758,6 @@ class TestTeams(TestCase):
 
         self.client.force_authenticate(user=self.user)
         resp = self.client.get("/api/v1/sgtd/teams/")
-        self.assertEqual(resp.status_code, 200)
-
-        data = resp.json()
-        self.assertEqual(data["count"], 1)
-        self.assertEqual(data["results"][0]["id"], self.instance.id)
-
-    def test_list_search(self):
-        """Test that Teams collection can be searched by"""
-
-        self.client.force_authenticate(user=self.user)
-        resp = self.client.get(
-            "/api/v1/sgtd/teams/",
-            {
-                "name__icontains": self.instance.name,
-            },
-        )
         self.assertEqual(resp.status_code, 200)
 
         data = resp.json()
