@@ -1,24 +1,28 @@
 from django.test import TestCase
 
 from ..models import (
-    Adjudicators,
+    Checkins,
     Draws,
-    DrawsAdjudicators,
+    Drawsjudges,
+    Feedbacks,
+    Judges,
     Rounds,
-    SpeakerResults,
+    Speakerresults,
     Speakers,
-    TeamResults,
+    Teamresults,
     Teams,
 )
 from .factories import (
     SpeakersFactory,
     TeamsFactory,
-    AdjudicatorsFactory,
+    JudgesFactory,
     RoundsFactory,
     DrawsFactory,
-    DrawsAdjudicatorsFactory,
-    TeamResultsFactory,
-    SpeakerResultsFactory,
+    DrawsjudgesFactory,
+    TeamresultsFactory,
+    SpeakerresultsFactory,
+    CheckinsFactory,
+    FeedbacksFactory,
 )
 
 
@@ -38,12 +42,12 @@ class TeamsTestCase(TestCase):
         assert Teams.objects.all().get() == obj
 
 
-class AdjudicatorsTestCase(TestCase):
-    def test_create_adjudicators(self):
-        """Test that Adjudicators can be created using its factory."""
+class JudgesTestCase(TestCase):
+    def test_create_judges(self):
+        """Test that Judges can be created using its factory."""
 
-        obj = AdjudicatorsFactory()
-        assert Adjudicators.objects.all().get() == obj
+        obj = JudgesFactory()
+        assert Judges.objects.all().get() == obj
 
 
 class RoundsTestCase(TestCase):
@@ -62,25 +66,41 @@ class DrawsTestCase(TestCase):
         assert Draws.objects.all().get() == obj
 
 
-class DrawsAdjudicatorsTestCase(TestCase):
-    def test_create_draws_adjudicators(self):
-        """Test that DrawsAdjudicators can be created using its factory."""
+class DrawsjudgesTestCase(TestCase):
+    def test_create_drawsjudges(self):
+        """Test that Drawsjudges can be created using its factory."""
 
-        obj = DrawsAdjudicatorsFactory()
-        assert DrawsAdjudicators.objects.all().get() == obj
-
-
-class TeamResultsTestCase(TestCase):
-    def test_create_team_results(self):
-        """Test that TeamResults can be created using its factory."""
-
-        obj = TeamResultsFactory()
-        assert TeamResults.objects.all().get() == obj
+        obj = DrawsjudgesFactory()
+        assert Drawsjudges.objects.all().get() == obj
 
 
-class SpeakerResultsTestCase(TestCase):
-    def test_create_speaker_results(self):
-        """Test that SpeakerResults can be created using its factory."""
+class TeamresultsTestCase(TestCase):
+    def test_create_teamresults(self):
+        """Test that Teamresults can be created using its factory."""
 
-        obj = SpeakerResultsFactory()
-        assert SpeakerResults.objects.all().get() == obj
+        obj = TeamresultsFactory()
+        assert Teamresults.objects.all().get() == obj
+
+
+class SpeakerresultsTestCase(TestCase):
+    def test_create_speakerresults(self):
+        """Test that Speakerresults can be created using its factory."""
+
+        obj = SpeakerresultsFactory()
+        assert Speakerresults.objects.all().get() == obj
+
+
+class CheckinsTestCase(TestCase):
+    def test_create_checkins(self):
+        """Test that Checkins can be created using its factory."""
+
+        obj = CheckinsFactory()
+        assert Checkins.objects.all().get() == obj
+
+
+class FeedbacksTestCase(TestCase):
+    def test_create_feedbacks(self):
+        """Test that Feedbacks can be created using its factory."""
+
+        obj = FeedbacksFactory()
+        assert Feedbacks.objects.all().get() == obj

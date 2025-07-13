@@ -1,40 +1,47 @@
 from rest_framework import serializers
 
 from .models import (
-    Adjudicators,
+    Checkins,
     Draws,
-    DrawsAdjudicators,
+    Drawsjudges,
+    Feedbacks,
+    Judges,
     Rounds,
-    SpeakerResults,
+    Speakerresults,
     Speakers,
-    TeamResults,
+    Teamresults,
     Teams,
 )
 
 
-class AdjudicatorsSerializer(serializers.ModelSerializer):
+class CheckinsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Adjudicators
-        fields = [
-            "id",
-            "name",
-            "province",
-            "institution",
-            "team_representation",
-            "score",
-        ]
+        model = Checkins
+        fields = ["id", "created_at", "update_at", "round", "speaker"]
 
 
 class DrawsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Draws
-        fields = ["id", "round", "speaker_position", "adjudicator", "draw_status"]
+        fields = ["id", "round", "ag", "draw_status", "bo"]
 
 
-class DrawsAdjudicatorsSerializer(serializers.ModelSerializer):
+class DrawsjudgesSerializer(serializers.ModelSerializer):
     class Meta:
-        model = DrawsAdjudicators
-        fields = ["id", "adjudicator", "role"]
+        model = Drawsjudges
+        fields = ["judge", "role", "is_checked"]
+
+
+class FeedbacksSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Feedbacks
+        fields = ["id", "draw", "target", "comment", "score", "status"]
+
+
+class JudgesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Judges
+        fields = ["id", "name", "province", "delegation", "team", "basescore"]
 
 
 class RoundsSerializer(serializers.ModelSerializer):
@@ -52,33 +59,25 @@ class RoundsSerializer(serializers.ModelSerializer):
         ]
 
 
-class SpeakerResultsSerializer(serializers.ModelSerializer):
+class SpeakerresultsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = SpeakerResults
-        fields = ["id", "draw", "speaker", "speaker_points"]
+        model = Speakerresults
+        fields = ["id", "draw", "speaker", "speaker_points", "is_iron", "team_result"]
 
 
 class SpeakersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Speakers
-        fields = [
-            "id",
-            "name",
-            "province",
-            "nickname",
-            "status",
-            "institution",
-            "is_novice",
-        ]
+        fields = ["id", "name", "province", "delegation", "is_novice"]
 
 
-class TeamResultsSerializer(serializers.ModelSerializer):
+class TeamresultsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = TeamResults
+        model = Teamresults
         fields = ["id", "draw", "team", "position", "points"]
 
 
 class TeamsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Teams
-        fields = ["id", "name", "speaker_1", "speaker_2"]
+        fields = ["id", "name", "speaker_1", "speaker_2", "teamtype"]

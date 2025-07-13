@@ -1,7 +1,7 @@
 from django.test import TestCase
 
-from ..models import Tournaments
-from .factories import TournamentsFactory
+from ..models import Tournaments, Usertournament
+from .factories import TournamentsFactory, UsertournamentFactory
 
 
 class TournamentsTestCase(TestCase):
@@ -10,3 +10,11 @@ class TournamentsTestCase(TestCase):
 
         obj = TournamentsFactory()
         assert Tournaments.objects.all().get() == obj
+
+
+class UsertournamentTestCase(TestCase):
+    def test_create_usertournament(self):
+        """Test that Usertournament can be created using its factory."""
+
+        obj = UsertournamentFactory()
+        assert Usertournament.objects.all().get() == obj

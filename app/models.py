@@ -63,3 +63,26 @@ class Tournaments(models.Model):
     def __str__(self):
         """String representation of a Tournaments instance."""
         return self.name
+
+
+class Usertournament(models.Model):
+    user = models.ManyToManyField(
+        "users.User",
+        related_name="usertournaments",
+        blank=True,
+        editable=False,
+    )
+    tournament = models.ManyToManyField(
+        "app.Tournaments",
+        related_name="usertournaments",
+        blank=True,
+        editable=False,
+    )
+    role = models.TextField(
+        null=False,
+        editable=False,
+    )
+
+    def __str__(self):
+        """String representation of a Usertournament instance."""
+        return self.role

@@ -1,37 +1,34 @@
-from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
 
 from . import permissions
 from .models import (
-    Adjudicators,
+    Checkins,
     Draws,
-    DrawsAdjudicators,
+    Feedbacks,
+    Judges,
     Rounds,
-    SpeakerResults,
+    Speakerresults,
     Speakers,
-    TeamResults,
+    Teamresults,
     Teams,
 )
 from .serializers import (
-    AdjudicatorsSerializer,
+    CheckinsSerializer,
     DrawsSerializer,
-    DrawsAdjudicatorsSerializer,
+    FeedbacksSerializer,
+    JudgesSerializer,
     RoundsSerializer,
-    SpeakerResultsSerializer,
+    SpeakerresultsSerializer,
     SpeakersSerializer,
-    TeamResultsSerializer,
+    TeamresultsSerializer,
     TeamsSerializer,
 )
 
 
-class AdjudicatorsViewSet(viewsets.ModelViewSet):
-    queryset = Adjudicators.objects.all()
-    serializer_class = AdjudicatorsSerializer
-    permission_classes = (permissions.AdjudicatorsPermission,)
-    filter_backend = [DjangoFilterBackend]
-    filterset_fields = {
-        "name": ["icontains"],
-    }
+class CheckinsViewSet(viewsets.ModelViewSet):
+    queryset = Checkins.objects.all()
+    serializer_class = CheckinsSerializer
+    permission_classes = (permissions.CheckinsPermission,)
 
 
 class DrawsViewSet(viewsets.ModelViewSet):
@@ -40,10 +37,16 @@ class DrawsViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.DrawsPermission,)
 
 
-class DrawsAdjudicatorsViewSet(viewsets.ModelViewSet):
-    queryset = DrawsAdjudicators.objects.all()
-    serializer_class = DrawsAdjudicatorsSerializer
-    permission_classes = (permissions.DrawsAdjudicatorsPermission,)
+class FeedbacksViewSet(viewsets.ModelViewSet):
+    queryset = Feedbacks.objects.all()
+    serializer_class = FeedbacksSerializer
+    permission_classes = (permissions.FeedbacksPermission,)
+
+
+class JudgesViewSet(viewsets.ModelViewSet):
+    queryset = Judges.objects.all()
+    serializer_class = JudgesSerializer
+    permission_classes = (permissions.JudgesPermission,)
 
 
 class RoundsViewSet(viewsets.ModelViewSet):
@@ -52,10 +55,10 @@ class RoundsViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.RoundsPermission,)
 
 
-class SpeakerResultsViewSet(viewsets.ModelViewSet):
-    queryset = SpeakerResults.objects.all()
-    serializer_class = SpeakerResultsSerializer
-    permission_classes = (permissions.SpeakerResultsPermission,)
+class SpeakerresultsViewSet(viewsets.ModelViewSet):
+    queryset = Speakerresults.objects.all()
+    serializer_class = SpeakerresultsSerializer
+    permission_classes = (permissions.SpeakerresultsPermission,)
 
 
 class SpeakersViewSet(viewsets.ModelViewSet):
@@ -64,17 +67,13 @@ class SpeakersViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.SpeakersPermission,)
 
 
-class TeamResultsViewSet(viewsets.ModelViewSet):
-    queryset = TeamResults.objects.all()
-    serializer_class = TeamResultsSerializer
-    permission_classes = (permissions.TeamResultsPermission,)
+class TeamresultsViewSet(viewsets.ModelViewSet):
+    queryset = Teamresults.objects.all()
+    serializer_class = TeamresultsSerializer
+    permission_classes = (permissions.TeamresultsPermission,)
 
 
 class TeamsViewSet(viewsets.ModelViewSet):
     queryset = Teams.objects.all()
     serializer_class = TeamsSerializer
     permission_classes = (permissions.TeamsPermission,)
-    filter_backend = [DjangoFilterBackend]
-    filterset_fields = {
-        "name": ["icontains"],
-    }

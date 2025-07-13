@@ -1,29 +1,39 @@
 from django.contrib import admin
 
 from .models import (
-    Adjudicators,
+    Checkins,
     Draws,
-    DrawsAdjudicators,
+    Drawsjudges,
+    Feedbacks,
+    Judges,
     Rounds,
-    SpeakerResults,
+    Speakerresults,
     Speakers,
-    TeamResults,
+    Teamresults,
     Teams,
 )
 
 
-class AdjudicatorsAdmin(admin.ModelAdmin):
-    model = Adjudicators
-    list_display = ["name"]
-    search_fields = ["name"]
+class CheckinsAdmin(admin.ModelAdmin):
+    model = Checkins
 
 
 class DrawsAdmin(admin.ModelAdmin):
     model = Draws
 
 
-class DrawsAdjudicatorsAdmin(admin.ModelAdmin):
-    model = DrawsAdjudicators
+class DrawsjudgesAdmin(admin.ModelAdmin):
+    model = Drawsjudges
+
+
+class FeedbacksAdmin(admin.ModelAdmin):
+    model = Feedbacks
+
+
+class JudgesAdmin(admin.ModelAdmin):
+    model = Judges
+    list_display = ["name"]
+    search_fields = ["name"]
 
 
 class RoundsAdmin(admin.ModelAdmin):
@@ -32,18 +42,18 @@ class RoundsAdmin(admin.ModelAdmin):
     search_fields = ["name"]
 
 
-class SpeakerResultsAdmin(admin.ModelAdmin):
-    model = SpeakerResults
+class SpeakerresultsAdmin(admin.ModelAdmin):
+    model = Speakerresults
 
 
 class SpeakersAdmin(admin.ModelAdmin):
     model = Speakers
-    list_display = ["name", "nickname"]
-    search_fields = ["name", "nickname"]
+    list_display = ["name"]
+    search_fields = ["name"]
 
 
-class TeamResultsAdmin(admin.ModelAdmin):
-    model = TeamResults
+class TeamresultsAdmin(admin.ModelAdmin):
+    model = Teamresults
 
 
 class TeamsAdmin(admin.ModelAdmin):
@@ -52,11 +62,13 @@ class TeamsAdmin(admin.ModelAdmin):
     search_fields = ["name"]
 
 
-admin.site.register(Adjudicators, AdjudicatorsAdmin)
+admin.site.register(Checkins, CheckinsAdmin)
 admin.site.register(Draws, DrawsAdmin)
-admin.site.register(DrawsAdjudicators, DrawsAdjudicatorsAdmin)
+admin.site.register(Drawsjudges, DrawsjudgesAdmin)
+admin.site.register(Feedbacks, FeedbacksAdmin)
+admin.site.register(Judges, JudgesAdmin)
 admin.site.register(Rounds, RoundsAdmin)
-admin.site.register(SpeakerResults, SpeakerResultsAdmin)
+admin.site.register(Speakerresults, SpeakerresultsAdmin)
 admin.site.register(Speakers, SpeakersAdmin)
-admin.site.register(TeamResults, TeamResultsAdmin)
+admin.site.register(Teamresults, TeamresultsAdmin)
 admin.site.register(Teams, TeamsAdmin)

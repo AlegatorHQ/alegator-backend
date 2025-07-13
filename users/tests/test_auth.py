@@ -10,7 +10,7 @@ class TestAuth(TestCase):
 
         resp = self.client.post(
             "/api/v1/auth/login/",
-            {"email": self.user.email, "password": "secret123"},
+            {"username": self.user.username, "password": "secret123"},
             content_type="application/json",
         )
 
@@ -23,7 +23,7 @@ class TestAuth(TestCase):
 
         resp = self.client.post(
             "/api/v1/auth/login/",
-            {"email": self.user.email, "password": "incorrectPassword"},
+            {"username": self.user.username, "password": "incorrectPassword"},
             content_type="application/json",
         )
 
@@ -35,6 +35,7 @@ class TestAuth(TestCase):
         resp = self.client.post(
             "/api/v1/auth/register/",
             {
+                "username": "testuser",
                 "email": "test@example.com",
                 "password1": "S3cr3t?N0tR34lly",
                 "password2": "S3cr3t?N0tR34lly",
