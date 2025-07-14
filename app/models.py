@@ -53,17 +53,19 @@ class Tournaments(models.Model):
 
 
 class Usertournament(models.Model):
-    user = models.ManyToManyField(
+    user = models.ForeignKey(
         "users.User",
         related_name="usertournaments",
+        on_delete=models.CASCADE,
+        null=True,
         blank=True,
-        editable=False,
     )
-    tournament = models.ManyToManyField(
+    tournament = models.ForeignKey(
         "app.Tournaments",
         related_name="usertournaments",
+        on_delete=models.CASCADE,
+        null=True,
         blank=True,
-        editable=False,
     )
     role = models.TextField(
         null=False,
