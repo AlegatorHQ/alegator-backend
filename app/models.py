@@ -28,9 +28,6 @@ class Tournaments(models.Model):
     feedback_description = models.TextField(
         null=True,
     )
-    speaker_criteria = models.JSONField(
-        null=True,
-    )
     minimum_panel_score = models.IntegerField(
         null=False,
     )
@@ -43,20 +40,10 @@ class Tournaments(models.Model):
     end_date = models.DateField(
         null=False,
     )
-    team_criteria = models.JSONField(
-        null=True,
-    )
     creator = models.ForeignKey(
         "users.User",
         related_name="tournaments",
         on_delete=models.PROTECT,
-        null=False,
-    )
-    created_at = models.DateTimeField(
-        null=False,
-        auto_now_add=True,
-    )
-    updated_at = models.DateTimeField(
         null=False,
     )
 
