@@ -3,6 +3,12 @@ from django.utils.timezone import now
 
 
 class Speakers(models.Model):
+    tournament = models.ForeignKey(
+        "app.Tournaments",
+        related_name="speakers",
+        on_delete=models.CASCADE,
+        null=False,
+    )
     name = models.TextField(
         null=False,
     )
@@ -23,6 +29,12 @@ class Speakers(models.Model):
 
 
 class Teams(models.Model):
+    tournament = models.ForeignKey(
+        "app.Tournaments",
+        related_name="teams",
+        on_delete=models.CASCADE,
+        null=False,
+    )
     name = models.TextField(
         null=False,
         unique=True,
@@ -45,6 +57,12 @@ class Teams(models.Model):
 
 
 class Judges(models.Model):
+    tournament = models.ForeignKey(
+        "app.Tournaments",
+        related_name="judges",
+        on_delete=models.CASCADE,
+        null=False,
+    )
     name = models.TextField(
         null=False,
     )
@@ -72,6 +90,12 @@ class Judges(models.Model):
 
 
 class Rounds(models.Model):
+    tournament = models.ForeignKey(
+        "app.Tournaments",
+        related_name="rounds",
+        on_delete=models.CASCADE,
+        null=False,
+    )
     name = models.TextField(
         null=False,
         unique=True,
@@ -101,6 +125,12 @@ class Rounds(models.Model):
 
 
 class Draws(models.Model):
+    tournament = models.ForeignKey(
+        "app.Tournaments",
+        related_name="draws",
+        on_delete=models.CASCADE,
+        null=False,
+    )
     round = models.ForeignKey(
         "sgtd.Rounds",
         related_name="draws",
@@ -141,6 +171,12 @@ class Draws(models.Model):
 
 
 class Drawsjudges(models.Model):
+    tournament = models.ForeignKey(
+        "app.Tournaments",
+        related_name="drawsjudges",
+        on_delete=models.CASCADE,
+        null=False,
+    )
     draw = models.ForeignKey(
         "sgtd.Judges",
         related_name="drawsjudges_draw",
@@ -163,6 +199,12 @@ class Drawsjudges(models.Model):
 
 
 class Teamresults(models.Model):
+    tournament = models.ForeignKey(
+        "app.Tournaments",
+        related_name="teamresults",
+        on_delete=models.CASCADE,
+        null=False,
+    )
     draw = models.ForeignKey(
         "sgtd.Draws",
         related_name="teamresults",
@@ -186,6 +228,12 @@ class Teamresults(models.Model):
 
 
 class Speakerresults(models.Model):
+    tournament = models.ForeignKey(
+        "app.Tournaments",
+        related_name="speakerresults",
+        on_delete=models.CASCADE,
+        null=False,
+    )
     draw = models.ForeignKey(
         "sgtd.Draws",
         related_name="speakerresults",
@@ -219,6 +267,12 @@ class Speakerresults(models.Model):
 
 
 class Checkins(models.Model):
+    tournament = models.ForeignKey(
+        "app.Tournaments",
+        related_name="checkins",
+        on_delete=models.CASCADE,
+        null=False,
+    )
     created_at = models.DateTimeField(
         null=False,
         default=now,
@@ -248,6 +302,12 @@ class Feedbacks(models.Model):
         ("judge_to_speaker", "Judge to Speaker"),
     ]
 
+    tournament = models.ForeignKey(
+        "app.Tournaments",
+        related_name="feedbacks",
+        on_delete=models.CASCADE,
+        null=False,
+    )
     draw = models.ForeignKey(
         "sgtd.Draws",
         related_name="feedbacks",
