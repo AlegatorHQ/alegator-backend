@@ -39,10 +39,6 @@ class Teams(models.Model):
         on_delete=models.PROTECT,
         null=False,
     )
-    teamtype = models.TextField(
-        null=False,
-    )
-
     def __str__(self):
         """String representation of a Teams instance."""
         return self.name
@@ -118,25 +114,29 @@ class Draws(models.Model):
         "sgtd.Speakers",
         related_name="draws_ag",
         on_delete=models.CASCADE,
-        null=False,
+        null=True,
+        blank=True,
     )
     ao = models.ForeignKey(
         "sgtd.Speakers",
         related_name="draws_ao",
         on_delete=models.CASCADE,
-        null=False,
+        null=True,
+        blank=True,
     )
     bg = models.ForeignKey(
         "sgtd.Speakers",
         related_name="draws_bg",
         on_delete=models.CASCADE,
-        null=False,
+        null=True,
+        blank=True,
     )
     bo = models.ForeignKey(
         "sgtd.Speakers",
         related_name="draws_bo",
         on_delete=models.CASCADE,
-        null=False,
+        null=True,
+        blank=True,
     )
 
 
@@ -167,13 +167,15 @@ class Teamresults(models.Model):
         "sgtd.Draws",
         related_name="teamresults",
         on_delete=models.PROTECT,
-        null=False,
+        null=True,
+        blank=True,
     )
     team = models.ForeignKey(
         "sgtd.Teams",
         related_name="teamresults",
         on_delete=models.PROTECT,
-        null=False,
+        null=True,
+        blank=True,
     )
     position = models.TextField(
         null=False,
@@ -188,13 +190,15 @@ class Speakerresults(models.Model):
         "sgtd.Draws",
         related_name="speakerresults",
         on_delete=models.PROTECT,
-        null=False,
+        null=True,
+        blank=True,
     )
     speaker = models.ForeignKey(
         "sgtd.Speakers",
         related_name="speakerresults",
         on_delete=models.PROTECT,
-        null=False,
+        null=True,
+        blank=True,
     )
     speaker_points = models.DecimalField(
         null=False,
@@ -209,7 +213,8 @@ class Speakerresults(models.Model):
         "sgtd.Teamresults",
         related_name="speakerresults",
         on_delete=models.PROTECT,
-        null=False,
+        null=True,
+        blank=True,
     )
 
 
@@ -272,5 +277,9 @@ class Feedbacks(models.Model):
     )
 
     def __str__(self):
-        feedback_type_display = dict(self.FEEDBACK_TYPE_CHOICES).get(self.feedback_type, self.feedback_type)
+        feedback_type_value = self.feedback_type
+        if isinstance(feedback_type_value, str):
+            feedback_type_display = dict(self.FEEDBACK_TYPE_CHOICES).get(feedback_type_value, feedback_type_value)
+        else:
+            feedback_type_display = str(feedback_type_value)
         return f"Feedback: {self.given_by} → {self.target} [{feedback_type_display}] | Score: {self.score} | Status: {self.status}"
