@@ -111,13 +111,13 @@ class Draws(models.Model):
         on_delete=models.PROTECT,
         null=False,
     )
+    draw_status = models.TextField(
+        null=False,
+    )
     ag = models.ForeignKey(
         "sgtd.Speakers",
         related_name="draws_ag",
-        on_delete=models.PROTECT,
-        null=False,
-    )
-    draw_status = models.TextField(
+        on_delete=models.CASCADE,
         null=False,
     )
     ao = models.ForeignKey(
@@ -125,14 +125,12 @@ class Draws(models.Model):
         related_name="draws_ao",
         on_delete=models.CASCADE,
         null=False,
-        unique=True,
     )
     bg = models.ForeignKey(
         "sgtd.Speakers",
         related_name="draws_bg",
         on_delete=models.CASCADE,
         null=False,
-        unique=True,
     )
     bo = models.ForeignKey(
         "sgtd.Speakers",
@@ -240,10 +238,20 @@ class Checkins(models.Model):
 
 
 class Feedbacks(models.Model):
+    FEEDBACK_TYPE_CHOICES = [
+        ("speaker_to_judge", "Speaker to Judge"),
+        ("judge_to_speaker", "Judge to Speaker"),
+    ]
+
     draw = models.ForeignKey(
         "sgtd.Draws",
         related_name="feedbacks",
         on_delete=models.PROTECT,
+        null=False,
+    )
+    feedback_type = models.CharField(
+        max_length=20,
+        choices=FEEDBACK_TYPE_CHOICES,
         null=False,
     )
     given_by = models.TextField(
@@ -264,5 +272,5 @@ class Feedbacks(models.Model):
     )
 
     def __str__(self):
-        """String representation of a Feedbacks instance."""
-        return self.given_by
+        feedback_type_display = dict(self.FEEDBACK_TYPE_CHOICES).get(self.feedback_type, self.feedback_type)
+        return f"Feedback: {self.given_by} → {self.target} [{feedback_type_display}] | Score: {self.score} | Status: {self.status}"
