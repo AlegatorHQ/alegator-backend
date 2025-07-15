@@ -19,12 +19,13 @@ class User(AbstractUser):
     )
     email = models.EmailField(unique=True)
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]
 
     def save(self, *args, **kwargs):
         if not self.username:
             # Generate a unique username if none provided
             import uuid
+
             self.username = f"user_{uuid.uuid4().hex[:8]}"
         super().save(*args, **kwargs)
