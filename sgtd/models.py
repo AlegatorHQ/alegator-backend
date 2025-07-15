@@ -51,6 +51,7 @@ class Teams(models.Model):
         on_delete=models.PROTECT,
         null=False,
     )
+
     def __str__(self):
         """String representation of a Teams instance."""
         return self.name
@@ -339,7 +340,9 @@ class Feedbacks(models.Model):
     def __str__(self):
         feedback_type_value = self.feedback_type
         if isinstance(feedback_type_value, str):
-            feedback_type_display = dict(self.FEEDBACK_TYPE_CHOICES).get(feedback_type_value, feedback_type_value)
+            feedback_type_display = dict(self.FEEDBACK_TYPE_CHOICES).get(
+                feedback_type_value, feedback_type_value
+            )
         else:
             feedback_type_display = str(feedback_type_value)
         return f"Feedback: {self.given_by} → {self.target} [{feedback_type_display}] | Score: {self.score} | Status: {self.status}"
