@@ -40,13 +40,13 @@ class Teams(models.Model):
         unique=True,
     )
     speaker_1 = models.ForeignKey(
-        "users.User",
+        "sgtd.Speakers",
         related_name="teams_speaker_1",
         on_delete=models.PROTECT,
         null=False,
     )
     speaker_2 = models.ForeignKey(
-        "users.User",
+        "sgtd.Speakers",
         related_name="teams_speaker_2",
         on_delete=models.PROTECT,
         null=False,
