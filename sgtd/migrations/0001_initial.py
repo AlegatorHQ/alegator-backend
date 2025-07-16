@@ -6,159 +6,440 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('app', '0001_initial'),
+        ("app", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Draws',
+            name="Draws",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('draw_status', models.TextField()),
-                ('tournament', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='draws', to='app.tournaments')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("draw_status", models.TextField()),
+                (
+                    "tournament",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="draws",
+                        to="app.tournaments",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Feedbacks',
+            name="Feedbacks",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('feedback_type', models.CharField(choices=[('speaker_to_judge', 'Speaker to Judge'), ('judge_to_speaker', 'Judge to Speaker')], max_length=20)),
-                ('given_by', models.TextField()),
-                ('target', models.TextField()),
-                ('comment', models.TextField()),
-                ('score', models.IntegerField()),
-                ('status', models.TextField(default='pending')),
-                ('draw', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='feedbacks', to='sgtd.draws')),
-                ('tournament', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='feedbacks', to='app.tournaments')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "feedback_type",
+                    models.CharField(
+                        choices=[
+                            ("speaker_to_judge", "Speaker to Judge"),
+                            ("judge_to_speaker", "Judge to Speaker"),
+                        ],
+                        max_length=20,
+                    ),
+                ),
+                ("given_by", models.TextField()),
+                ("target", models.TextField()),
+                ("comment", models.TextField()),
+                ("score", models.IntegerField()),
+                ("status", models.TextField(default="pending")),
+                (
+                    "draw",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="feedbacks",
+                        to="sgtd.draws",
+                    ),
+                ),
+                (
+                    "tournament",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="feedbacks",
+                        to="app.tournaments",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Judges',
+            name="Judges",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.TextField()),
-                ('province', models.TextField()),
-                ('delegation', models.TextField()),
-                ('basescore', models.DecimalField(decimal_places=2, max_digits=3)),
-                ('tournament', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='judges', to='app.tournaments')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.TextField()),
+                ("province", models.TextField()),
+                ("delegation", models.TextField()),
+                ("basescore", models.DecimalField(decimal_places=2, max_digits=3)),
+                (
+                    "tournament",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="judges",
+                        to="app.tournaments",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Drawsjudges',
+            name="Drawsjudges",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('role', models.TextField()),
-                ('is_checked', models.BooleanField(default=False)),
-                ('tournament', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='drawsjudges', to='app.tournaments')),
-                ('draw', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='drawsjudges_draw', to='sgtd.judges')),
-                ('judge', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='drawsjudges_judge', to='sgtd.judges')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("role", models.TextField()),
+                ("is_checked", models.BooleanField(default=False)),
+                (
+                    "tournament",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="drawsjudges",
+                        to="app.tournaments",
+                    ),
+                ),
+                (
+                    "draw",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="drawsjudges_draw",
+                        to="sgtd.judges",
+                    ),
+                ),
+                (
+                    "judge",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="drawsjudges_judge",
+                        to="sgtd.judges",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Rounds',
+            name="Rounds",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.TextField(unique=True)),
-                ('motion', models.TextField()),
-                ('infoslide', models.TextField()),
-                ('round_number', models.IntegerField()),
-                ('round_status', models.TextField()),
-                ('round_type', models.BooleanField()),
-                ('is_silenced', models.BooleanField()),
-                ('tournament', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='rounds', to='app.tournaments')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.TextField(unique=True)),
+                ("motion", models.TextField()),
+                ("infoslide", models.TextField()),
+                ("round_number", models.IntegerField()),
+                ("round_status", models.TextField()),
+                ("round_type", models.BooleanField()),
+                ("is_silenced", models.BooleanField()),
+                (
+                    "tournament",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="rounds",
+                        to="app.tournaments",
+                    ),
+                ),
             ],
         ),
         migrations.AddField(
-            model_name='draws',
-            name='round',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='draws', to='sgtd.rounds'),
+            model_name="draws",
+            name="round",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="draws",
+                to="sgtd.rounds",
+            ),
         ),
         migrations.CreateModel(
-            name='Speakers',
+            name="Speakers",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.TextField()),
-                ('province', models.TextField()),
-                ('delegation', models.TextField()),
-                ('is_novice', models.BooleanField(default=False)),
-                ('tournament', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='speakers', to='app.tournaments')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.TextField()),
+                ("province", models.TextField()),
+                ("delegation", models.TextField()),
+                ("is_novice", models.BooleanField(default=False)),
+                (
+                    "tournament",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="speakers",
+                        to="app.tournaments",
+                    ),
+                ),
             ],
         ),
         migrations.AddField(
-            model_name='draws',
-            name='ag',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='draws_ag', to='sgtd.speakers'),
+            model_name="draws",
+            name="ag",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="draws_ag",
+                to="sgtd.speakers",
+            ),
         ),
         migrations.AddField(
-            model_name='draws',
-            name='ao',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='draws_ao', to='sgtd.speakers'),
+            model_name="draws",
+            name="ao",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="draws_ao",
+                to="sgtd.speakers",
+            ),
         ),
         migrations.AddField(
-            model_name='draws',
-            name='bg',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='draws_bg', to='sgtd.speakers'),
+            model_name="draws",
+            name="bg",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="draws_bg",
+                to="sgtd.speakers",
+            ),
         ),
         migrations.AddField(
-            model_name='draws',
-            name='bo',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='draws_bo', to='sgtd.speakers'),
+            model_name="draws",
+            name="bo",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="draws_bo",
+                to="sgtd.speakers",
+            ),
         ),
         migrations.CreateModel(
-            name='Checkins',
+            name="Checkins",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(default=django.utils.timezone.now)),
-                ('update_at', models.DateTimeField()),
-                ('tournament', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='checkins', to='app.tournaments')),
-                ('round', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='checkins', to='sgtd.rounds')),
-                ('speaker', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='checkins', to='sgtd.speakers')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(default=django.utils.timezone.now)),
+                ("update_at", models.DateTimeField()),
+                (
+                    "tournament",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="checkins",
+                        to="app.tournaments",
+                    ),
+                ),
+                (
+                    "round",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="checkins",
+                        to="sgtd.rounds",
+                    ),
+                ),
+                (
+                    "speaker",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="checkins",
+                        to="sgtd.speakers",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Teamresults',
+            name="Teamresults",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('position', models.TextField()),
-                ('points', models.IntegerField()),
-                ('draw', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='teamresults', to='sgtd.draws')),
-                ('tournament', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='teamresults', to='app.tournaments')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("position", models.TextField()),
+                ("points", models.IntegerField()),
+                (
+                    "draw",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="teamresults",
+                        to="sgtd.draws",
+                    ),
+                ),
+                (
+                    "tournament",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="teamresults",
+                        to="app.tournaments",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Speakerresults',
+            name="Speakerresults",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('speaker_points', models.DecimalField(decimal_places=2, max_digits=3)),
-                ('is_iron', models.BooleanField(default=False)),
-                ('draw', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='speakerresults', to='sgtd.draws')),
-                ('tournament', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='speakerresults', to='app.tournaments')),
-                ('speaker', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='speakerresults', to='sgtd.speakers')),
-                ('team_result', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='speakerresults', to='sgtd.teamresults')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("speaker_points", models.DecimalField(decimal_places=2, max_digits=3)),
+                ("is_iron", models.BooleanField(default=False)),
+                (
+                    "draw",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="speakerresults",
+                        to="sgtd.draws",
+                    ),
+                ),
+                (
+                    "tournament",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="speakerresults",
+                        to="app.tournaments",
+                    ),
+                ),
+                (
+                    "speaker",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="speakerresults",
+                        to="sgtd.speakers",
+                    ),
+                ),
+                (
+                    "team_result",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="speakerresults",
+                        to="sgtd.teamresults",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Teams',
+            name="Teams",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.TextField(unique=True)),
-                ('speaker_1', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='teams_speaker_1', to='sgtd.speakers')),
-                ('speaker_2', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='teams_speaker_2', to='sgtd.speakers')),
-                ('tournament', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='teams', to='app.tournaments')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.TextField(unique=True)),
+                (
+                    "speaker_1",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="teams_speaker_1",
+                        to="sgtd.speakers",
+                    ),
+                ),
+                (
+                    "speaker_2",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="teams_speaker_2",
+                        to="sgtd.speakers",
+                    ),
+                ),
+                (
+                    "tournament",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="teams",
+                        to="app.tournaments",
+                    ),
+                ),
             ],
         ),
         migrations.AddField(
-            model_name='teamresults',
-            name='team',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='teamresults', to='sgtd.teams'),
+            model_name="teamresults",
+            name="team",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="teamresults",
+                to="sgtd.teams",
+            ),
         ),
         migrations.AddField(
-            model_name='judges',
-            name='team',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='judges', to='sgtd.teams'),
+            model_name="judges",
+            name="team",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="judges",
+                to="sgtd.teams",
+            ),
         ),
     ]

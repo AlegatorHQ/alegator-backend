@@ -4,36 +4,50 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Tournaments',
+            name="Tournaments",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.TextField(unique=True, verbose_name='tournament name')),
-                ('description_tournament', models.TextField(null=True)),
-                ('tournament_status', models.TextField()),
-                ('avoid_same_institution', models.BooleanField()),
-                ('shortname', models.TextField(null=True)),
-                ('place', models.TextField(null=True)),
-                ('missing_feedbacks', models.BooleanField()),
-                ('feedback_description', models.TextField(null=True)),
-                ('minimum_panel_score', models.IntegerField()),
-                ('check_in', models.BooleanField()),
-                ('start_date', models.DateField()),
-                ('end_date', models.DateField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.TextField(unique=True, verbose_name="tournament name")),
+                ("description_tournament", models.TextField(null=True)),
+                ("tournament_status", models.TextField()),
+                ("avoid_same_institution", models.BooleanField()),
+                ("shortname", models.TextField(null=True)),
+                ("place", models.TextField(null=True)),
+                ("missing_feedbacks", models.BooleanField()),
+                ("feedback_description", models.TextField(null=True)),
+                ("minimum_panel_score", models.IntegerField()),
+                ("check_in", models.BooleanField()),
+                ("start_date", models.DateField()),
+                ("end_date", models.DateField()),
             ],
         ),
         migrations.CreateModel(
-            name='Usertournament',
+            name="Usertournament",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('role', models.TextField(editable=False)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("role", models.TextField(editable=False)),
             ],
         ),
     ]

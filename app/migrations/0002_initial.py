@@ -6,28 +6,43 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('app', '0001_initial'),
+        ("app", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='tournaments',
-            name='creator',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='tournaments', to=settings.AUTH_USER_MODEL),
+            model_name="tournaments",
+            name="creator",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="tournaments",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AddField(
-            model_name='usertournament',
-            name='tournament',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='usertournaments', to='app.tournaments'),
+            model_name="usertournament",
+            name="tournament",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="usertournaments",
+                to="app.tournaments",
+            ),
         ),
         migrations.AddField(
-            model_name='usertournament',
-            name='user',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='usertournaments', to=settings.AUTH_USER_MODEL),
+            model_name="usertournament",
+            name="user",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="usertournaments",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]
