@@ -8,19 +8,19 @@ class TournamentsSerializer(serializers.ModelSerializer):
         model = Tournaments
         fields = [
             "id",
+            "name",
+            "description_tournament",
             "tournament_status",
             "avoid_same_institution",
             "shortname",
             "place",
             "missing_feedbacks",
-            "speaker_criteria",
+            "feedback_description",
             "minimum_panel_score",
             "check_in",
             "start_date",
             "end_date",
-            "team_criteria",
             "creator",
-            "updated_at",
         ]
 
 

@@ -6,5 +6,5 @@ from .views import (
 )
 
 app_router = routers.SimpleRouter()
-app_router.register(r"app/tournaments", TournamentsViewSet)
-app_router.register(r"app/usertournament", UsertournamentViewSet)
+app_router.register(r"tournaments", TournamentsViewSet)
+app_router.register(r"usertournament", UsertournamentViewSet)
