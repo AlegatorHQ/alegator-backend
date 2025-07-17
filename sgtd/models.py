@@ -9,7 +9,10 @@ class Speakers(models.Model):
         on_delete=models.CASCADE,
         null=False,
     )
-    name = models.TextField(
+    user = models.ForeignKey(
+        "app.Users",
+        related_name="speakers",
+        on_delete=models.CASCADE,
         null=False,
     )
     province = models.TextField(
@@ -25,7 +28,7 @@ class Speakers(models.Model):
 
     def __str__(self):
         """String representation of a Speakers instance."""
-        return self.name
+        return self.user.first_name
 
 
 class Teams(models.Model):
@@ -64,7 +67,10 @@ class Judges(models.Model):
         on_delete=models.CASCADE,
         null=False,
     )
-    name = models.TextField(
+    user = models.ForeignKey(
+        "app.Users",
+        related_name="judges",
+        on_delete=models.CASCADE,
         null=False,
     )
     province = models.TextField(
@@ -87,7 +93,7 @@ class Judges(models.Model):
 
     def __str__(self):
         """String representation of a Judges instance."""
-        return self.name
+        return self.user.first_name
 
 
 class Rounds(models.Model):

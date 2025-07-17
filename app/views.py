@@ -9,6 +9,16 @@ from .serializers import TournamentsSerializer, UsertournamentSerializer
 from sgtd.models import Judges, Speakers
 from sgtd.serializers import JudgesSerializer, SpeakersSerializer
 
+from .models import Users
+from .serializers import UserSerializer
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = Users.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (permissions.UserPermission,)
+
+
 
 class TournamentsViewSet(viewsets.ModelViewSet):
     queryset = Tournaments.objects.all()

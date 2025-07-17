@@ -25,7 +25,6 @@ INSTALLED_APPS = [
     "dj_rest_auth.registration",
     "app.apps.AppConfig",
     "sgtd.apps.SgtdConfig",
-    "users.apps.UsersConfig",
     "openapi.apps.OpenAPIConfig",
 ]
 
@@ -64,7 +63,7 @@ WSGI_APPLICATION = "project.wsgi.application"
 DATABASES = {"default": dj_database_url.config()}
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-AUTH_USER_MODEL = "users.User"
+# AUTH_USER_MODEL = "users.User"
 
 AUTH_PASSWORD_VALIDATORS = [
     {

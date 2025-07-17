@@ -1,7 +1,14 @@
 from django.test import TestCase
 
-from ..models import Tournaments, Usertournament
-from .factories import TournamentsFactory, UsertournamentFactory
+from ..models import Tournaments, Usertournament, Users
+from .factories import TournamentsFactory, UsertournamentFactory, UserFactory
+
+class UsersTestCase(TestCase):
+    def test_create_users(self):
+        """Test that Users can be created using its factory."""
+
+        obj = UserFactory()
+        assert Users.objects.all().get() == obj
 
 
 class TournamentsTestCase(TestCase):

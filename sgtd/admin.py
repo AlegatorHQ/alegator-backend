@@ -32,8 +32,8 @@ class FeedbacksAdmin(admin.ModelAdmin):
 
 class JudgesAdmin(admin.ModelAdmin):
     model = Judges
-    list_display = ["name"]
-    search_fields = ["name"]
+    list_display = ["user"]
+    search_fields = ["user__first_name", "user__last_name"]
 
 
 class RoundsAdmin(admin.ModelAdmin):
@@ -48,8 +48,8 @@ class SpeakerresultsAdmin(admin.ModelAdmin):
 
 class SpeakersAdmin(admin.ModelAdmin):
     model = Speakers
-    list_display = ["name"]
-    search_fields = ["name"]
+    list_display = ["user"]
+    search_fields = ["user__first_name", "user__last_name"]
 
 
 class TeamresultsAdmin(admin.ModelAdmin):

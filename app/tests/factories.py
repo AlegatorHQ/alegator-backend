@@ -1,12 +1,38 @@
 from datetime import timezone
-from django.contrib.auth import get_user_model
 import factory
 from factory.django import DjangoModelFactory
 
-from ..models import Tournaments, Usertournament
+from ..models import Tournaments, Usertournament, Users
 
-User = get_user_model()
+class UserFactory(DjangoModelFactory):
+    class Meta:
+        model = Users
+        django_get_or_create = ("email",)
 
+    username = factory.Faker("user_name")
+    email = factory.Faker("email")
+    first_name = factory.Faker("first_name")
+    last_name = factory.Faker("last_name")
+    province = factory.Faker("province")
+    is_staff = False
+    is_superuser = False
+    is_active = True
+
+    @staticmethod
+    def with_password(password, **kwargs):
+        user = UserFactory.build(**kwargs)
+        user.set_password(password)
+        user.save()
+        return user
+
+
+class AdminUserFactory(UserFactory):
+    username = factory.Faker("user_name")
+    email = factory.Faker("email")
+    is_staff = True
+    is_superuser = True
+    first_name = factory.Faker("first_name")
+    last_name = factory.Faker("last_name")
 
 class TournamentsFactory(DjangoModelFactory):
     class Meta:
@@ -20,7 +46,7 @@ class TournamentsFactory(DjangoModelFactory):
     check_in = factory.Faker("boolean")
     start_date = factory.Faker("date_object")
     end_date = factory.Faker("date_object")
-    creator = factory.SubFactory("users.tests.factories.UserFactory")
+    creator = factory.SubFactory("app.tests.factories.UserFactory")
     created_at = factory.Faker("date_time", tzinfo=timezone.utc)
     updated_at = factory.Faker("date_time", tzinfo=timezone.utc)
 
