@@ -23,6 +23,7 @@ class SpeakersFactory(DjangoModelFactory):
     class Meta:
         model = Speakers
 
+    tournament = factory.SubFactory("app.tests.factories.TournamentsFactory")
     name = factory.Faker("text")
     province = factory.Faker("text")
     delegation = factory.Faker("text")
@@ -32,16 +33,19 @@ class TeamsFactory(DjangoModelFactory):
     class Meta:
         model = Teams
 
+    tournament = factory.SubFactory("app.tests.factories.TournamentsFactory")
     name = factory.Faker("text")
-    speaker_1 = factory.SubFactory("users.tests.factories.UserFactory")
-    speaker_2 = factory.SubFactory("users.tests.factories.UserFactory")
+    speaker_1 = factory.SubFactory("sgtd.tests.factories.SpeakersFactory")
+    speaker_2 = factory.SubFactory("sgtd.tests.factories.SpeakersFactory")
     teamtype = factory.Faker("text")
+    
 
 
 class JudgesFactory(DjangoModelFactory):
     class Meta:
         model = Judges
 
+    tournament = factory.SubFactory("app.tests.factories.TournamentsFactory")
     name = factory.Faker("text")
     province = factory.Faker("text")
     delegation = factory.Faker("text")
@@ -55,6 +59,7 @@ class RoundsFactory(DjangoModelFactory):
     class Meta:
         model = Rounds
 
+    tournament = factory.SubFactory("app.tests.factories.TournamentsFactory")
     name = factory.Faker("text")
     motion = factory.Faker("text")
     infoslide = factory.Faker("text")
@@ -68,6 +73,7 @@ class DrawsFactory(DjangoModelFactory):
     class Meta:
         model = Draws
 
+    tournament = factory.SubFactory("app.tests.factories.TournamentsFactory")
     round = factory.SubFactory("sgtd.tests.factories.RoundsFactory")
     ag = factory.SubFactory("sgtd.tests.factories.SpeakersFactory")
     draw_status = factory.Faker("text")
@@ -80,6 +86,7 @@ class DrawsjudgesFactory(DjangoModelFactory):
     class Meta:
         model = Drawsjudges
 
+    tournament = factory.SubFactory("app.tests.factories.TournamentsFactory")
     draw = factory.SubFactory("sgtd.tests.factories.JudgesFactory")
     judge = factory.SubFactory("sgtd.tests.factories.JudgesFactory")
     role = factory.Faker("text")
@@ -89,6 +96,7 @@ class TeamresultsFactory(DjangoModelFactory):
     class Meta:
         model = Teamresults
 
+    tournament = factory.SubFactory("app.tests.factories.TournamentsFactory")
     draw = factory.SubFactory("sgtd.tests.factories.DrawsFactory")
     team = factory.SubFactory("sgtd.tests.factories.TeamsFactory")
     position = factory.Faker("text")
@@ -99,6 +107,7 @@ class SpeakerresultsFactory(DjangoModelFactory):
     class Meta:
         model = Speakerresults
 
+    tournament = factory.SubFactory("app.tests.factories.TournamentsFactory")
     draw = factory.SubFactory("sgtd.tests.factories.DrawsFactory")
     speaker = factory.SubFactory("sgtd.tests.factories.SpeakersFactory")
     speaker_points = factory.Faker(
@@ -111,15 +120,17 @@ class CheckinsFactory(DjangoModelFactory):
     class Meta:
         model = Checkins
 
-    update_at = factory.Faker("date_time", tzinfo=timezone.utc)
+    tournament = factory.SubFactory("app.tests.factories.TournamentsFactory")
     round = factory.SubFactory("sgtd.tests.factories.RoundsFactory")
     speaker = factory.SubFactory("sgtd.tests.factories.SpeakersFactory")
+    update_at = factory.Faker("date_time_this_year", tzinfo=timezone.utc)
 
 
 class FeedbacksFactory(DjangoModelFactory):
     class Meta:
         model = Feedbacks
 
+    tournament = factory.SubFactory("app.tests.factories.TournamentsFactory")
     draw = factory.SubFactory("sgtd.tests.factories.DrawsFactory")
     given_by = factory.Faker("text")
     target = factory.Faker("text")

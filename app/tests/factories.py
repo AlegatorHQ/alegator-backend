@@ -1,7 +1,9 @@
 from datetime import timezone
 import factory
 from factory import fuzzy
+from factory.declarations import SubFactory
 from factory.django import DjangoModelFactory
+from faker import Faker
 
 from ..models import Tournaments, Usertournament, Users
 
@@ -11,10 +13,10 @@ class UserFactory(DjangoModelFactory):
         model = Users
         django_get_or_create = ("email",)
 
-    username = factory.Faker("user_name")
-    email = factory.Faker("email")
-    first_name = factory.Faker("first_name")
-    last_name = factory.Faker("last_name")
+    username = Faker("user_name")
+    email = Faker("email")
+    first_name = Faker("first_name")
+    last_name = Faker("last_name")
     province = fuzzy.FuzzyChoice(
         ["Panamá", "Colón", "Chiriquí", "Bocas del Toro", "Herrera", "Los Santos", "Veraguas", "Coclé", "Darién"]
     )
@@ -32,51 +34,34 @@ class UserFactory(DjangoModelFactory):
 
 
 class AdminUserFactory(UserFactory):
-    username = factory.Faker("user_name")
-    email = factory.Faker("email")
+    username = Faker("user_name")
+    email = Faker("email")
     is_staff = True
     is_superuser = True
-    first_name = factory.Faker("first_name")
-    last_name = factory.Faker("last_name")
+    first_name = Faker("first_name")
+    last_name = Faker("last_name")
 
 
 class TournamentsFactory(DjangoModelFactory):
     class Meta:
         model = Tournaments
 
-    name = factory.Faker("text")
-    tournament_status = factory.Faker("text")
-    avoid_same_institution = factory.Faker("boolean")
-    missing_feedbacks = factory.Faker("boolean")
-    minimum_panel_score = factory.Faker("random_int")
-    check_in = factory.Faker("boolean")
-    start_date = factory.Faker("date_object")
-    end_date = factory.Faker("date_object")
-    creator = factory.SubFactory("app.tests.factories.UserFactory")
+    name = Faker("text")
+    tournament_status = Faker("text")
+    avoid_same_institution = Faker("boolean")
+    missing_feedbacks = Faker("boolean")
+    minimum_panel_score = Faker("random_int")
+    check_in = Faker("boolean")
+    start_date = Faker("date_object")
+    end_date = Faker("date_object")
+    creator = SubFactory("users.tests.factories.UserFactory")
+    
 
 
 class UsertournamentFactory(DjangoModelFactory):
     class Meta:
         model = Usertournament
 
-    role = factory.Faker("text")
-
-    @factory.post_generation
-    def user(self, create, extracted, **kwargs):
-        if not create:
-            return
-        # if related model instances are provided, add them to the relation
-        if extracted:
-            for model in extracted:
-                self.user.add(model)
-        # by default the relation is empty
-
-    @factory.post_generation
-    def tournament(self, create, extracted, **kwargs):
-        if not create:
-            return
-        # if related model instances are provided, add them to the relation
-        if extracted:
-            for model in extracted:
-                self.tournament.add(model)
-        # by default the relation is empty
+    user = SubFactory("users.tests.factories.UserFactory")
+    tournament = SubFactory(TournamentsFactory)
+    role = Faker("text")
