@@ -19,7 +19,6 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.UserPermission,)
 
 
-
 class TournamentsViewSet(viewsets.ModelViewSet):
     queryset = Tournaments.objects.all()
     serializer_class = TournamentsSerializer
@@ -28,7 +27,11 @@ class TournamentsViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(creator=self.request.user)
 
-    @action(detail=True, methods=["post"], permission_classes=[drf_permissions.IsAuthenticated])
+    @action(
+        detail=True,
+        methods=["post"],
+        permission_classes=[drf_permissions.IsAuthenticated],
+    )
     def register(self, request, pk=None):
         tournament = self.get_object()
         role = request.data.get("role", "participant")
@@ -58,7 +61,11 @@ class TournamentsViewSet(viewsets.ModelViewSet):
             }
         )
 
-    @action(detail=True, methods=["get"], permission_classes=[drf_permissions.IsAuthenticated])
+    @action(
+        detail=True,
+        methods=["get"],
+        permission_classes=[drf_permissions.IsAuthenticated],
+    )
     def my_data(self, request, pk=None):
         tournament = self.get_object()
         try:

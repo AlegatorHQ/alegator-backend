@@ -2,6 +2,7 @@ from rest_framework import permissions
 
 from .models import Usertournament
 
+
 class UserPermission(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.user.is_superuser:
@@ -34,22 +35,21 @@ class TournamentsPermission(permissions.BasePermission):
             return True
 
         if view.action in ["update", "partial_update", "destroy"]:
-            return (
-                request.user.is_authenticated
-                and Usertournament.objects.filter(
-                    tournament=obj, user=request.user, role="admin"
-                ).exists()
+            return request.user.is_superuser or (
+                obj.creator == request.user
+                or (
+                    request.user.is_authenticated
+                    and Usertournament.objects.filter(
+                        tournament=obj, user=request.user, role="admin"
+                    ).exists()
+                )
             )
 
         return False
 
     def has_permission(self, request, view):
-        if request.method in permissions.SAFE_METHODS:
-            return True
-
-        if view.action == "create":
-            return request.user.is_authenticated
-
+        if not request.user.is_authenticated:
+            return False
         return True
 
 

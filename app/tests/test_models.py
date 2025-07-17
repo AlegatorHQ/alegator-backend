@@ -3,6 +3,7 @@ from django.test import TestCase
 from ..models import Tournaments, Usertournament, Users
 from .factories import TournamentsFactory, UsertournamentFactory, UserFactory
 
+
 class UsersTestCase(TestCase):
     def test_create_users(self):
         """Test that Users can be created using its factory."""

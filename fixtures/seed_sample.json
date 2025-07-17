@@ -1,0 +1,425 @@
+[
+  {
+    "model": "app.users",
+    "pk": 1,
+    "fields": {
+      "first_name": "Admin",
+      "last_name": "Alegator",
+      "username": "admin",
+      "email": "admin@alegator.com",
+      "province": "Panamá",
+      "is_active": true,
+      "is_staff": true,
+      "is_superuser": true
+    }
+  },
+  {
+    "model": "app.users",
+    "pk": 2,
+    "fields": {
+      "first_name": "Luis",
+      "last_name": "Gonzalez",
+      "username": "luisgonzalez",
+      "email": "luis.gonzalez@example.com",
+      "province": "Panamá",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false
+    }
+  },
+  {
+    "model": "app.users",
+    "pk": 3,
+    "fields": {
+      "first_name": "Ana",
+      "last_name": "Rodriguez",
+      "username": "anarodriguez",
+      "email": "ana.rodriguez@example.com",
+      "province": "Colón",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false
+    }
+  },
+  {
+    "model": "app.users",
+    "pk": 4,
+    "fields": {
+      "first_name": "Carlos",
+      "last_name": "Martinez",
+      "username": "carlosmartinez",
+      "email": "carlos.martinez@example.com",
+      "province": "Chiriquí",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false
+    }
+  },
+  {
+    "model": "app.users",
+    "pk": 5,
+    "fields": {
+      "first_name": "Maria",
+      "last_name": "Perez",
+      "username": "mariaperez",
+      "email": "maria.perez@example.com",
+      "province": "Bocas del Toro",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false
+    }
+  },
+  {
+    "model": "app.users",
+    "pk": 6,
+    "fields": {
+      "first_name": "Jose",
+      "last_name": "Gomez",
+      "username": "josegomez",
+      "email": "jose.gomez@example.com",
+      "province": "Herrera",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false
+    }
+  },
+  {
+    "model": "app.users",
+    "pk": 7,
+    "fields": {
+      "first_name": "Laura",
+      "last_name": "Diaz",
+      "username": "lauradiaz",
+      "email": "laura.diaz@example.com",
+      "province": "Los Santos",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false
+    }
+  },
+  {
+    "model": "app.users",
+    "pk": 8,
+    "fields": {
+      "first_name": "David",
+      "last_name": "Moreno",
+      "username": "davidmoreno",
+      "email": "david.moreno@example.com",
+      "province": "Veraguas",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false
+    }
+  },
+  {
+    "model": "app.tournaments",
+    "pk": 1,
+    "fields": {
+      "name": "Torneo Nacional de Debate Panamá 2025",
+      "description_tournament": "El torneo de debate más prestigioso de Panamá.",
+      "tournament_status": "active",
+      "avoid_same_institution": true,
+      "shortname": "TNDP2025",
+      "place": "Ciudad de Panamá",
+      "missing_feedbacks": true,
+      "feedback_description": "El feedback es obligatorio para todos los jueces.",
+      "minimum_panel_score": 75,
+      "check_in": true,
+      "start_date": "2025-08-15",
+      "end_date": "2025-08-18",
+      "creator": 1
+    }
+  },
+  {
+    "model": "app.tournaments",
+    "pk": 2,
+    "fields": {
+      "name": "Abierto de Verano de Azuero 2025",
+      "description_tournament": "Torneo de debate en la región de Azuero.",
+      "tournament_status": "upcoming",
+      "avoid_same_institution": false,
+      "shortname": "AVDA2025",
+      "place": "Chitré",
+      "missing_feedbacks": false,
+      "feedback_description": "",
+      "minimum_panel_score": 70,
+      "check_in": true,
+      "start_date": "2025-09-20",
+      "end_date": "2025-09-22",
+      "creator": 1
+    }
+  },
+  {
+    "model": "app.usertournament",
+    "pk": 1, "fields": { "user": 2, "tournament": 1, "role": "speaker" }
+  },
+  {
+    "model": "app.usertournament",
+    "pk": 2, "fields": { "user": 3, "tournament": 1, "role": "judge" }
+  },
+  {
+    "model": "app.usertournament",
+    "pk": 3, "fields": { "user": 4, "tournament": 1, "role": "speaker" }
+  },
+  {
+    "model": "app.usertournament",
+    "pk": 4, "fields": { "user": 5, "tournament": 1, "role": "judge" }
+  },
+  {
+    "model": "app.usertournament",
+    "pk": 5, "fields": { "user": 6, "tournament": 2, "role": "speaker" }
+  },
+  {
+    "model": "app.usertournament",
+    "pk": 6, "fields": { "user": 7, "tournament": 2, "role": "judge" }
+  },
+  {
+    "model": "sgtd.speakers",
+    "pk": 1,
+    "fields": {
+      "tournament": 1,
+      "user": 2,
+      "province": "Panamá",
+      "delegation": "Universidad de Panamá",
+      "is_novice": false
+    }
+  },
+  {
+    "model": "sgtd.speakers",
+    "pk": 2,
+    "fields": {
+      "tournament": 1,
+      "user": 4,
+      "province": "Chiriquí",
+      "delegation": "Universidad Autónoma de Chiriquí",
+      "is_novice": true
+    }
+  },
+  {
+    "model": "sgtd.speakers",
+    "pk": 3,
+    "fields": {
+      "tournament": 2,
+      "user": 6,
+      "province": "Herrera",
+      "delegation": "Centro Regional Universitario de Azuero",
+      "is_novice": false
+    }
+  },
+  {
+    "model": "sgtd.teams",
+    "pk": 1,
+    "fields": {
+      "tournament": 1,
+      "name": "Debatientes del Canal",
+      "speaker_1": 1,
+      "speaker_2": 2
+    }
+  },
+  {
+    "model": "sgtd.teams",
+    "pk": 2,
+    "fields": {
+      "tournament": 2,
+      "name": "Herreranos al Poder",
+      "speaker_1": 3,
+      "speaker_2": 3
+    }
+  },
+  {
+    "model": "sgtd.judges",
+    "pk": 1,
+    "fields": {
+      "tournament": 1,
+      "user": 3,
+      "province": "Colón",
+      "delegation": "Colegio Nacional de Abogados",
+      "team": 1,
+      "basescore": "8.00"
+    }
+  },
+  {
+    "model": "sgtd.judges",
+    "pk": 2,
+    "fields": {
+      "tournament": 1,
+      "user": 5,
+      "province": "Bocas del Toro",
+      "delegation": "Jueces Independientes de Panamá",
+      "team": 1,
+      "basescore": "7.50"
+    }
+  },
+  {
+    "model": "sgtd.judges",
+    "pk": 3,
+    "fields": {
+      "tournament": 2,
+      "user": 7,
+      "province": "Los Santos",
+      "delegation": "Asociación de Debate de Azuero",
+      "team": 2,
+      "basescore": "8.50"
+    }
+  },
+  {
+    "model": "sgtd.rounds",
+    "pk": 1,
+    "fields": {
+      "tournament": 1,
+      "name": "Ronda 1 TNDP",
+      "motion": "Esta casa implementaría un sistema de jurado para todos los casos penales en Panamá.",
+      "infoslide": "El sistema de jurado se aplicaría a nivel nacional.",
+      "round_number": 1,
+      "round_status": "announced",
+      "round_type": true,
+      "is_silenced": false
+    }
+  },
+  {
+    "model": "sgtd.rounds",
+    "pk": 2,
+    "fields": {
+      "tournament": 1,
+      "name": "Ronda 2 TNDP",
+      "motion": "Esta casa cree que el Canal de Panamá debe ser administrado por una entidad internacional.",
+      "infoslide": "",
+      "round_number": 2,
+      "round_status": "draft",
+      "round_type": true,
+      "is_silenced": true
+    }
+  },
+  {
+    "model": "sgtd.rounds",
+    "pk": 3,
+    "fields": {
+      "tournament": 2,
+      "name": "Ronda 1 AVDA",
+      "motion": "Esta casa subsidiaría la producción de café en la región de Azuero.",
+      "infoslide": "",
+      "round_number": 1,
+      "round_status": "announced",
+      "round_type": true,
+      "is_silenced": false
+    }
+  },
+  {
+    "model": "sgtd.draws",
+    "pk": 1,
+    "fields": {
+      "tournament": 1,
+      "round": 1,
+      "draw_status": "confirmed",
+      "ag": 1,
+      "ao": 2,
+      "bg": 1,
+      "bo": 2
+    }
+  },
+  {
+    "model": "sgtd.draws",
+    "pk": 2,
+    "fields": {
+      "tournament": 2,
+      "round": 3,
+      "draw_status": "confirmed",
+      "ag": 3,
+      "ao": 3,
+      "bg": 3,
+      "bo": 3
+    }
+  },
+  {
+    "model": "sgtd.drawsjudges",
+    "pk": 1,
+    "fields": {
+      "tournament": 1,
+      "draw": 1,
+      "judge": 1,
+      "role": "chair",
+      "is_checked": true
+    }
+  },
+  {
+    "model": "sgtd.drawsjudges",
+    "pk": 2,
+    "fields": {
+      "tournament": 1,
+      "draw": 1,
+      "judge": 2,
+      "role": "panelist",
+      "is_checked": false
+    }
+  },
+  {
+    "model": "sgtd.drawsjudges",
+    "pk": 3,
+    "fields": {
+      "tournament": 2,
+      "draw": 2,
+      "judge": 3,
+      "role": "chair",
+      "is_checked": true
+    }
+  },
+  {
+    "model": "sgtd.teamresults",
+    "pk": 1,
+    "fields": {
+      "tournament": 1,
+      "draw": 1,
+      "team": 1,
+      "position": "AG",
+      "points": 3
+    }
+  },
+  {
+    "model": "sgtd.speakerresults",
+    "pk": 1,
+    "fields": {
+      "tournament": 1,
+      "draw": 1,
+      "speaker": 1,
+      "speaker_points": "8.5",
+      "is_iron": false,
+      "team_result": 1
+    }
+  },
+  {
+    "model": "sgtd.feedbacks",
+    "pk": 1,
+    "fields": {
+      "tournament": 1,
+      "draw": 1,
+      "feedback_type": "speaker_to_judge",
+      "given_by": "Luis Gonzalez",
+      "target": "Ana Rodriguez",
+      "comment": "Feedback muy constructivo y claro.",
+      "score": 5,
+      "status": "completed"
+    }
+  },
+  {
+    "model": "sgtd.checkins",
+    "pk": 1,
+    "fields": {
+        "tournament": 1,
+        "created_at": "2025-08-15T09:00:00Z",
+        "update_at": "2025-08-15T09:00:00Z",
+        "round": 1,
+        "speaker": 1
+    }
+  },
+  {
+      "model": "sgtd.checkins",
+      "pk": 2,
+      "fields": {
+          "tournament": 1,
+          "created_at": "2025-08-15T09:05:00Z",
+          "update_at": "2025-08-15T09:05:00Z",
+          "round": 1,
+          "speaker": 2
+      }
+  }
+]

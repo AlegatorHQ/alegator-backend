@@ -286,20 +286,19 @@ class Checkins(models.Model):
     )
     update_at = models.DateTimeField(
         null=False,
+        default=now,
     )
-    round = models.OneToOneField(
+    round = models.ForeignKey(
         "sgtd.Rounds",
         related_name="checkins",
         on_delete=models.CASCADE,
         null=False,
-        unique=True,
     )
-    speaker = models.OneToOneField(
+    speaker = models.ForeignKey(
         "sgtd.Speakers",
         related_name="checkins",
         on_delete=models.CASCADE,
         null=False,
-        unique=True,
     )
 
 

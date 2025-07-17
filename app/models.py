@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Users(models.Model):
     first_name = models.TextField(
         null=False,
@@ -18,12 +19,14 @@ class Users(models.Model):
     )
     province = models.TextField(
         null=False,
-        unique=True,
     )
     is_active = models.BooleanField(
         null=False,
     )
     is_staff = models.BooleanField(
+        null=False,
+    )
+    is_authenticated = models.BooleanField(
         null=False,
     )
     is_superuser = models.BooleanField(

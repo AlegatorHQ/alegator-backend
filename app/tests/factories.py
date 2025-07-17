@@ -1,8 +1,10 @@
 from datetime import timezone
 import factory
+from factory import fuzzy
 from factory.django import DjangoModelFactory
 
 from ..models import Tournaments, Usertournament, Users
+
 
 class UserFactory(DjangoModelFactory):
     class Meta:
@@ -13,9 +15,12 @@ class UserFactory(DjangoModelFactory):
     email = factory.Faker("email")
     first_name = factory.Faker("first_name")
     last_name = factory.Faker("last_name")
-    province = factory.Faker("province")
+    province = fuzzy.FuzzyChoice(
+        ["Panamá", "Colón", "Chiriquí", "Bocas del Toro", "Herrera", "Los Santos", "Veraguas", "Coclé", "Darién"]
+    )
     is_staff = False
     is_superuser = False
+    is_authenticated = True
     is_active = True
 
     @staticmethod
@@ -34,6 +39,7 @@ class AdminUserFactory(UserFactory):
     first_name = factory.Faker("first_name")
     last_name = factory.Faker("last_name")
 
+
 class TournamentsFactory(DjangoModelFactory):
     class Meta:
         model = Tournaments
@@ -47,8 +53,6 @@ class TournamentsFactory(DjangoModelFactory):
     start_date = factory.Faker("date_object")
     end_date = factory.Faker("date_object")
     creator = factory.SubFactory("app.tests.factories.UserFactory")
-    created_at = factory.Faker("date_time", tzinfo=timezone.utc)
-    updated_at = factory.Faker("date_time", tzinfo=timezone.utc)
 
 
 class UsertournamentFactory(DjangoModelFactory):
