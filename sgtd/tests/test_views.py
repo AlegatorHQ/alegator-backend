@@ -2,7 +2,7 @@ from django.test import TestCase
 from rest_framework.test import APIClient
 from unittest.mock import patch
 
-from users.tests.factories import UserFactory, AdminUserFactory
+from app.tests.factories import UserFactory, AdminUserFactory
 from .factories import (
     SpeakersFactory,
     TeamsFactory,
