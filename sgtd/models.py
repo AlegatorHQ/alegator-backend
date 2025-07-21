@@ -54,10 +54,6 @@ class Teams(models.Model):
         on_delete=models.PROTECT,
         null=False,
     )
-    teamtype = models.TextField(
-        null=False,
-        default='',
-    )
 
     def __str__(self):
         """String representation of a Teams instance."""

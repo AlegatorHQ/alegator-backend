@@ -23,8 +23,6 @@ INSTALLED_APPS = [
     "django_filters",
     "dj_rest_auth",
     "dj_rest_auth.registration",
-    "rest_framework_simplejwt",
-    "rest_framework_simplejwt.token_blacklist",
     "app.apps.AppConfig",
     "sgtd.apps.SgtdConfig",
     "openapi.apps.OpenAPIConfig",
@@ -82,19 +80,16 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # allauth settings
-# allauth settings
-ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_AUTHENTICATION_METHOD = "username"
+ACCOUNT_EMAIL_REQUIRED = False
 ACCOUNT_USERNAME_REQUIRED = True
-ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_EMAIL_VERIFICATION = "none" 
+ACCOUNT_EMAIL_VERIFICATION = "none"
 LOGOUT_ON_PASSWORD_CHANGE = False
 LOGIN_REDIRECT_URL = "/"
 
 REST_AUTH = {
     "SESSION_LOGIN": False,
-    "REGISTER_SERIALIZER": "users.serializers.CustomRegisterSerializer",
-    "LOGIN_SERIALIZER": "dj_rest_auth.serializers.LoginSerializer",
 }
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
