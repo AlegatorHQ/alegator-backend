@@ -1,4 +1,4 @@
-from .env import ABS_PATH, ENV_BOOL, ENV_STR, ENV_LIST
+from .env import ABS_PATH, ENV_BOOL, ENV_STR, ENV_LIST, SUPABASE_JWT_SECRET
 import dj_database_url
 from corsheaders.defaults import default_headers
 
@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     "dj_rest_auth.registration",
     "app.apps.AppConfig",
     "sgtd.apps.SgtdConfig",
+    "users.apps.UsersConfig",
     "openapi.apps.OpenAPIConfig",
 ]
 
@@ -63,7 +64,7 @@ WSGI_APPLICATION = "project.wsgi.application"
 DATABASES = {"default": dj_database_url.config()}
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# AUTH_USER_MODEL = "users.User"
+AUTH_USER_MODEL = "users.User"
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -112,8 +113,7 @@ DEFAULT_FROM_EMAIL = ENV_STR("DEFAULT_FROM_EMAIL", SERVER_EMAIL)
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework.authentication.SessionAuthentication",
-        "rest_framework.authentication.TokenAuthentication",
+        "app.authentication.SupabaseAuthentication",
     ),
     "TEST_REQUEST_DEFAULT_FORMAT": "json",
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",

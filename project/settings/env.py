@@ -97,3 +97,9 @@ def ENV_LIST(name, separator, default=None):
     if name not in os.environ:
         return default
     return os.environ[name].split(separator)
+
+# Project specific settings below
+# ...
+# For example:
+# GITHUB_API_KEY = ENV_STR("GITHUB_API_KEY", "")
+SUPABASE_JWT_SECRET = ENV_STR("SUPABASE_JWT_SECRET", "")
