@@ -15,3 +15,7 @@ htmlcov/
 
 .cursorrules
 .cursor/
+
+# Database
+*.sqlite3
+db.sqlite3
