@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.timezone import now
+from django.conf import settings
 
 
 class Speakers(models.Model):
@@ -10,7 +11,7 @@ class Speakers(models.Model):
         null=False,
     )
     user = models.ForeignKey(
-        "app.Users",
+        settings.AUTH_USER_MODEL,
         related_name="speakers",
         on_delete=models.CASCADE,
         null=False,
@@ -68,7 +69,7 @@ class Judges(models.Model):
         null=False,
     )
     user = models.ForeignKey(
-        "app.Users",
+        settings.AUTH_USER_MODEL,
         related_name="judges",
         on_delete=models.CASCADE,
         null=False,

@@ -1,22 +1,5 @@
 from rest_framework import serializers
-from .models import Tournaments, Usertournament, Users
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Users
-        fields = (
-            "id",
-            "first_name",
-            "last_name",
-            "username",
-            "email",
-            "province",
-            "is_active",
-            "is_staff",
-            "is_superuser",
-        )
-
+from .models import Tournaments, Usertournament
 
 class TournamentsSerializer(serializers.ModelSerializer):
     class Meta:
