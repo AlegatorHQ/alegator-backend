@@ -19,3 +19,4 @@ htmlcov/
 # Database
 *.sqlite3
 db.sqlite3
+sqlite.db
