@@ -4,10 +4,12 @@ from rest_framework import routers
 
 from app.urls import app_router
 from sgtd.urls import sgtd_router
+from users.urls import users_router
 
 router = routers.DefaultRouter()
 router.registry.extend(app_router.registry)
 router.registry.extend(sgtd_router.registry)
+router.registry.extend(users_router.registry)
 
 urlpatterns = [
     path("admin/doc/", include("django.contrib.admindocs.urls")),

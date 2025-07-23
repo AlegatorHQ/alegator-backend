@@ -5,6 +5,7 @@ from django.db import models
 class User(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     supabase_id = models.UUIDField(unique=True, editable=False, null=True)
+    province = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.username 
