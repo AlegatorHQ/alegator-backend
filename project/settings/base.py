@@ -14,19 +14,16 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
-    "corsheaders",
-    "rest_framework",
-    "rest_framework.authtoken",
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    "django_filters",
-    "dj_rest_auth",
-    "dj_rest_auth.registration",
-    "app.apps.AppConfig",
-    "sgtd.apps.SgtdConfig",
-    "users.apps.UsersConfig",
-    "openapi.apps.OpenAPIConfig",
+    "rest_framework",
+    "rest_framework.authtoken",
+    "corsheaders",
+    "app",
+    "sgtd",
+    "users",
+    "openapi",
 ]
 
 MIDDLEWARE = [
@@ -155,9 +152,20 @@ LOGGING = {
     },
 }
 
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_HEADERS = default_headers + ("content-disposition",)
+# CORS Configuration
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "authorization",
+    "content-type",
+    "origin",
+    "x-csrftoken",
+    "x-requested-with",
+]
 
 AWS_ACCESS_KEY_ID = ENV_STR("AWS_ACCESS_KEY_ID", "")
 AWS_SECRET_ACCESS_KEY = ENV_STR("AWS_SECRET_ACCESS_KEY", "")

@@ -1,13 +1,17 @@
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
+from rest_framework.routers import DefaultRouter
 
-from app.urls import app_router
+from openapi.urls import urlpatterns as openapi_urlpatterns
+from app.urls import router as app_router
 from sgtd.urls import sgtd_router
+from users.urls import users_router
 
-router = routers.DefaultRouter()
+router = DefaultRouter()
 router.registry.extend(app_router.registry)
 router.registry.extend(sgtd_router.registry)
+router.registry.extend(users_router.registry)
 
 urlpatterns = [
     path("admin/doc/", include("django.contrib.admindocs.urls")),

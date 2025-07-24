@@ -1,47 +1,8 @@
 from django.db import models
+from django.conf import settings
 
-
-class Users(models.Model):
-    first_name = models.TextField(
-        null=False,
-    )
-    last_name = models.TextField(
-        null=False,
-    )
-    username = models.CharField(
-        max_length=150,
-        unique=True,
-        null=False,
-    )
-    email = models.EmailField(
-        null=False,
-        unique=True,
-    )
-    province = models.TextField(
-        null=False,
-    )
-    is_active = models.BooleanField(
-        null=False,
-    )
-    is_staff = models.BooleanField(
-        null=False,
-    )
-    is_authenticated = models.BooleanField(
-        null=False,
-    )
-    is_superuser = models.BooleanField(
-        null=False,
-    )
-
-    def __str__(self):
-        """String representation of a User instance."""
-        return self.first_name
-
-    def get_full_name(self):
-        """Return the first_name plus the last_name, with a space in between."""
-        full_name = "%s %s" % (self.first_name, self.last_name)
-        return full_name.strip()
-
+# El modelo 'Users' se elimina porque ahora usamos el modelo personalizado
+# de la app 'users' (settings.AUTH_USER_MODEL)
 
 class Tournaments(models.Model):
     name = models.TextField(
@@ -83,7 +44,7 @@ class Tournaments(models.Model):
         null=False,
     )
     creator = models.ForeignKey(
-        "app.Users",
+        settings.AUTH_USER_MODEL,  # Apunta al modelo de usuario correcto
         related_name="tournaments",
         on_delete=models.PROTECT,
         null=False,
@@ -96,7 +57,7 @@ class Tournaments(models.Model):
 
 class Usertournament(models.Model):
     user = models.ForeignKey(
-        "app.Users",
+        settings.AUTH_USER_MODEL,  # Apunta al modelo de usuario correcto
         related_name="usertournaments",
         on_delete=models.CASCADE,
         null=True,
@@ -111,8 +72,7 @@ class Usertournament(models.Model):
     )
     role = models.TextField(
         null=False,
-        editable=False,
-    )
+    ) # Se quita editable=False para poder asignarlo
 
     def __str__(self):
         """String representation of a Usertournament instance."""
