@@ -1,10 +1,6 @@
 from rest_framework import routers
+from .views import TournamentsViewSet
 
-from .views import (
-    TournamentsViewSet,
-    UsertournamentViewSet,
-)
+router = routers.DefaultRouter()
 
-app_router = routers.SimpleRouter()
-app_router.register(r"tournaments", TournamentsViewSet)
-app_router.register(r"usertournament", UsertournamentViewSet)
+router.register(r'tournaments', TournamentsViewSet)

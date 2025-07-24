@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 
+# El modelo 'Users' se elimina porque ahora usamos el modelo personalizado
+# de la app 'users' (settings.AUTH_USER_MODEL)
 
 class Tournaments(models.Model):
     name = models.TextField(
@@ -42,7 +44,7 @@ class Tournaments(models.Model):
         null=False,
     )
     creator = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        settings.AUTH_USER_MODEL,  # Apunta al modelo de usuario correcto
         related_name="tournaments",
         on_delete=models.PROTECT,
         null=False,
@@ -55,7 +57,7 @@ class Tournaments(models.Model):
 
 class Usertournament(models.Model):
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        settings.AUTH_USER_MODEL,  # Apunta al modelo de usuario correcto
         related_name="usertournaments",
         on_delete=models.CASCADE,
         null=True,
@@ -70,8 +72,7 @@ class Usertournament(models.Model):
     )
     role = models.TextField(
         null=False,
-        editable=False,
-    )
+    ) # Se quita editable=False para poder asignarlo
 
     def __str__(self):
         """String representation of a Usertournament instance."""
