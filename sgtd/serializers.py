@@ -68,7 +68,7 @@ class SpeakerresultsSerializer(serializers.ModelSerializer):
 class SpeakersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Speakers
-        fields = ["id", "name", "province", "delegation", "is_novice"]
+        fields = ["id", "user", "province", "delegation", "is_novice"]
 
 
 class TeamresultsSerializer(serializers.ModelSerializer):
@@ -80,4 +80,4 @@ class TeamresultsSerializer(serializers.ModelSerializer):
 class TeamsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Teams
-        fields = ["id", "name", "speaker_1", "speaker_2", "teamtype"]
+        fields = ["id", "name", "speaker_1", "speaker_2"]
